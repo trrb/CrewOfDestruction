@@ -1,16 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+/* При заходе на сайт автоматом скачается шрифт */
+body, input, button, textarea, select {
+    font-family: 'Nunito', sans-serif; /* ВЕЗДЕ будет Nunito */
+    color: #22223b; /*темно-синий цвет текста везде*/
+}
+body
+{
+    margin: 0; /*отступ всего относительно границ страницы*/
+    height: 100vh;/* тип body занимает 100% экрана*/
+    display: flex;/*флекс +вайб*/
+    justify-content: center;/* где будет стоять по OX*/
+    align-items: center;/*где будут стоять элементы по OY*/
+    flex-direction: column;/* все элементы в body будут стоять колонной*/
+}
 .registr_block
 {
-    border-radius: 15px;      /* Скругление */
-    background-color: #f0f0f0;/* Цвет фона */
-    padding: 20px;            /* Отступы внутри */
-    border: 1px solid #ccc;   /* Тонкая рамка */
-    width: 300px;             /* Ширина блока */
-    margin: 0 auto;           /* Центрирование */
+    border-radius: 15px;/* Скругление */
+    background-color: #c9ada7;/* Цвет фона */
+    padding: 20px;/* Отступы внутри */
+    border: 1px solid #9a8c98;   /* Тонкая рамка */
+    width: 300px;/* Ширина блока */
+    height: 200px;/*Высота блока */
     gap: 10px; /*расстояние между элементами внутри бокса */
     flex-direction: column; /* как буду располагаться элементы */
     display: flex;/*флекс +вайб и все этом духе*/
 }
-.registr_h1
+input
 {
-    text-align: center            
+    background-color: #fafafa;/*цвет фона*/
+    border: 0;/*толщина границ*/
+    outline: 0;/*толщина границ, которые появляются при нажатии на поле ввода*/
+    height: 35px;/*высота поля ввода*/
+}
+button
+{
+    height: 40px;
+    width: 200px;
+    align-self: center;
 }
