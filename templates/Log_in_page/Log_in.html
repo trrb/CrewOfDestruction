@@ -11,8 +11,14 @@
             Вход
         </h1>
         <div class="log_in_block">
-            <input placeholder="Введите почту" type="text" id="username" name="username">
-            <input placeholder="Введите пароль" type="password" id="users_password" name="username">
+            <div class="input_box">
+                <label for="email">Введите почту</label>
+                <input type="email" id="user_mail" name="user_mail" placeholder="your_mail@mail.ru" required>
+            </div>
+            <div class="input_box">
+                <label for="password">Введите пароль</label>
+                <input type="password" id="users_password" name="users_password" placeholder="*********" required>
+            </div>
             <button type="submit">Войти</button>
             <p>Место для входа через партнеров</p>
         </div>

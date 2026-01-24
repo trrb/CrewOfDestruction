@@ -38,3 +38,9 @@ button
     width: 200px;
     align-self: center;
 }
+.input_box
+{
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+}
