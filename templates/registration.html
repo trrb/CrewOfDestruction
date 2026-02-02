@@ -9,29 +9,27 @@
 <body>
     <h1 class="registr_h1">Регистрация</h1>
 
-    <div class="registr_block">
-        <form method="POST">
+        <form method="POST" class="registr_block">
             {{ form.hidden_tag() }}
 
             <div class="input_box">
                 {{ form.email.label }}
-                {{ form.email(class_="input_field") }}
+                {{ form.email(class_="input_inside") }}
             </div>
 
             <div class="input_box">
                 {{ form.password.label }}
-                {{ form.password(class_="input_field") }}
+                {{ form.password(class_="input_inside") }}
             </div>
 
             <div class="input_box">
                 {{ form.name.label }}
-                {{ form.name(class_="input_field") }}
+                {{ form.name(class_="input_inside") }}
             </div>
 
-            {{ form.submit(class_="submit_button") }}
+            {{ form.submit(class_="button_") }}
 
             <p>Уже есть аккаунт? <a href="{{ url_for('login') }}">Войти</a></p>
         </form>
-    </div>
 </body>
 </html>

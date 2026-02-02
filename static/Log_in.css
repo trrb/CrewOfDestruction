@@ -27,14 +27,14 @@ body
     flex-direction: column; /* как буду располагаться элементы */
     display: flex;/*флекс +вайб и все этом духе*/
 }
-input
+.input_inside
 {
     background-color: #fafafa;/*цвет фона*/
     border: 0;/*толщина границ*/
     outline: 0;/*толщина границ, которые появляются при нажатии на поле ввода*/
     height: 35px;/*высота поля ввода*/
 }
-button
+.button_
 {
     height: 40px;
     width: 200px;
@@ -45,4 +45,8 @@ button
     display: flex;
     flex-direction: column;
     justify-items: center;
+}
+a
+{
+    text-decoration: none;
 }

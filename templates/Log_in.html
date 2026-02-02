@@ -7,26 +7,23 @@
     <title>CafeteriaFlow — Вход</title>
 </head>
 <body>
-    <h1 class="Log_in_h1">Вход</h1>
-
-    <div class="log_in_block">
-        <form method="POST">
+    <h1 class="Log_in_h1">Вход</h1><!--Большое название свеху блока-->
+        <form method="POST" class="log_in_block"><!--Блок в котором все находится-->
             {{ form.hidden_tag() }}
 
             <div class="input_box">
                 {{ form.email.label }}
-                {{ form.email(class_="input_field") }}
+                {{ form.email(class_="input_inside") }}
             </div>
 
             <div class="input_box">
                 {{ form.password.label }}
-                {{ form.password(class_="input_field") }}
+                {{ form.password(class_="input_inside") }}
             </div>
 
-            {{ form.submit(class_="submit_button") }}
+            {{ form.submit(class_="button_") }}
 
             <p>Нет аккаунта? <a href="{{ url_for('register') }}">Регистрация</a></p>
         </form>
-    </div>
 </body>
 </html>
