@@ -17,7 +17,7 @@ class Dish(Base):
         back_populates='dishes'
     )
 
-    type = Column(String(50))
+    type = sqlalchemy.Column(sqlalchemy.String(50))
 
     __mapper_args__ = {
         "polymorphic_on": type,
