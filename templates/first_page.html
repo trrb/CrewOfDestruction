@@ -26,9 +26,14 @@
         Завтрак
     </h1>
     <div class="photo_grid">
+        {{ form.hidden_tag() }}
+        {% for dish in dishes %}
         <div class="meal_card">
-            <img src="{{ url_for('static', filename='images/logo.png') }}" class="my_logo_class" alt="Логотип">
+        <h3>{{ dish.name }}</h3>
+        <p>{{ dish.price }} руб.</p>
+        <p>Тип: {{ dish.type }}</p>
         </div>
+        {% endfor %}
     </div>
     <h1>
         Обед
