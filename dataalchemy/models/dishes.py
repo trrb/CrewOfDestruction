@@ -16,3 +16,21 @@ class Dish(Base):
         secondary='dish_foods',
         back_populates='dishes'
     )
+
+    type = Column(String(50))
+
+    __mapper_args__ = {
+        "polymorphic_on": type,
+        "polymorphic_identity": "dish"
+    }
+
+class BreakfastDish(Dish):
+    __mapper_args__ = {
+        "polymorphic_identity": "breakfast"
+    }
+
+
+class LunchDish(Dish):
+    __mapper_args__ = {
+        "polymorphic_identity": "lunch"
+    }
