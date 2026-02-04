@@ -7,6 +7,7 @@ from forms.register import RegisterForm
 from forms.login import LoginForm
 from forms.first_page import First_page
 from forms.profile import Profile
+from forms.reviews import Reviews
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'crewdestruct'
@@ -53,18 +54,18 @@ def first_page():
     if form.validate_on_submit():
         if form.profile.data:
             return redirect(url_for('profile'))
+        elif form.reviews.data:
+            return redirect(url_for('reviews'))
     return render_template('first_page.html', form=form)
 
 
 @app.route('/logout')
-@login_required
 def logout():
     logout_user()
     return redirect(url_for('login'))
 
 
 @app.route('/register', methods=['GET', 'POST'])
-@login_required
 def register():
     form = RegisterForm()
 
@@ -92,7 +93,6 @@ def register():
 
 
 @app.route('/profile', methods=['GET', 'POST'])
-@login_required
 def profile():
     form = Profile()
     if form.validate_on_submit():
@@ -100,9 +100,19 @@ def profile():
             return redirect(url_for('profile'))
         elif form.menu.data:
             return redirect(url_for('first_page'))
+        elif form.reviews.data:
+            return redirect(url_for('reviews'))
     return render_template('profile.html', form=form)
 
-
+@app.route('/reviews', methods=['GET', 'POST'])
+def reviews():
+    form = Reviews()
+    if form.validate_on_submit():
+        if form.profile.data:
+            return redirect(url_for('profile'))
+        elif form.menu.data:
+            return redirect(url_for('first_page'))
+    return render_template('reviews.html', form=form)
 
 
 if __name__ == "__main__":

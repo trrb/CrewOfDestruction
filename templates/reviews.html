@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='reviews.css') }}">
     <title>CafeteriaFlow — Вход</title>
 </head>
 <body>
@@ -17,18 +17,18 @@
         {{ form.menu(class_="button_") }}
         {{ form.profile(class_="button_") }}
         </form>
-    <div class="balance_profile">
+    <div class="reviews_name_date">
         <a>
-            Мой баланс:
+            Stankevich
         </a>
-        <form class="contnet_header" method="post">
-            {{ form.hidden_tag() }}
-            {{ form.top_up_acc(class_="button_balance") }}
-        </form>
     </div>
-    <div class="check_profile">
+    <form class="contnet_header" method="post">
+        {{ form.hidden_tag() }}
+        {{ form.button_add_reviews(class_="button_add_reviews") }}
+    </form>
+    <div class="reviews_coment">
         <a>
-            История заказов:
+            xcvbnm,.
         </a>
     </div>
     </div>

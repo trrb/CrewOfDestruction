@@ -107,3 +107,47 @@ body
     bottom: 10px;
     width: 67%;
 }
+.reviews_name_date
+{
+    border-radius: 20px;/* Скругление */
+    background-color: #c9ada7;/* Цвет фона */
+    padding: 20px;/* Отступы внутри */
+    border: 1px solid #9a8c98;   /* Тонкая рамка */
+    width: 100px;/* Ширина блока */
+    height: 100px;/*Высота блока */
+    gap: 40px; /*расстояние между элементами внутри бокса */
+    flex-direction: column; /* как буду располагаться элементы */
+    align-items: center;
+    font-size: 20px;
+    display: flex;/*флекс +вайб и все этом духе*/
+    position:   absolute;
+    top: 225px;
+    left: 50px;
+}
+
+.reviews_coment
+{
+    border-radius: 20px;/* Скругление */
+    background-color: #c9ada7;/* Цвет фона */
+    padding: 20px;/* Отступы внутри */
+    border: 1px solid #9a8c98;   /* Тонкая рамка */
+    width: 1200px;/* Ширина блока */
+    height: 100px;/*Высота блока */
+    gap: 40px; /*расстояние между элементами внутри бокса */
+    flex-direction: column; /* как буду располагаться элементы */
+    font-size: 20px;
+    display: flex;/*флекс +вайб и все этом духе*/
+    position:   absolute;
+    top: 225px;
+    right: 50px;
+}
+.button_add_reviews
+{
+    padding: 0 20px;
+    height: 50px;
+    width: 140px;
+    flex-shrink: 0;
+    position:   absolute;
+    top: 160px;
+    left: 50px;
+}
