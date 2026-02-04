@@ -9,7 +9,7 @@ from forms.login import LoginForm
 from forms.first_page import First_page
 from forms.profile import Profile
 from forms.reviews import Reviews
-from forms.Bascket import Bascket
+from forms.bascket import Bascket
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'crewdestruct'
 
@@ -138,6 +138,8 @@ def bascket():
             return redirect(url_for('profile'))
         elif form.menu.data:
             return redirect(url_for('first_page'))
+        elif form.reviews.data:
+            return redirect(url_for('reviews'))
     return render_template('Bascket.html', form=form)
 
 
