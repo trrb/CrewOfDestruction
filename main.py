@@ -1,8 +1,8 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for
 from flask_login import LoginManager, login_user, logout_user, login_required
-
-from dataalchemy.db_session import create_session, global_init
-from dataalchemy.models import User, Role, Dish, Food, DishFood, LunchDish, BreakfastDish
+from dataalchemy import create_session, global_init
+from dataalchemy import User, Dish, Food, DishFood, LunchDish, \
+    BreakfastDish, RoleStudent, RoleAdmin, RoleCook
 from forms.register import RegisterForm
 from forms.login import LoginForm
 from forms.first_page import First_page
@@ -75,13 +75,11 @@ def register():
             session.close()
             return "Пользователь уже существует"
 
-        role = session.query(Role).filter(Role.name == 'Student').first()
-
-        user = User(
+        user = RoleStudent(
             name=form.name.data,
-            email=form.email.data,
-            role=role
+            email=form.email.data
         )
+
         user.set_password(form.password.data)
 
         session.add(user)
@@ -106,39 +104,23 @@ def profile():
 
 
 
-@app.route("/test_db")
-@login_required
-def test_db():
-    # создаём сессию для этого запроса
-    db = create_session()
-    try:
-        # 1️⃣ Проверяем роль
-        role = db.query(Role).filter(Role.name == "Student").first()
-        if not role:
-            role = Role(name="Student")
-            db.add(role)
-            db.commit()  # commit чтобы role.id появился
-
-        # 2️⃣ Проверяем пользователя
-        user = db.query(User).filter(User.email == "ivan@example.com").first()
-        if not user:
-            user = User(email="ivan@example.com", password="12345",
-                        balance=100.0, role=role)
-            db.add(user)
-            db.commit()  # commit сохраняет пользователя
-
-        # 3️⃣ Выводим всех пользователей
-        users = db.query(User).all()
-        result = "<br>".join(
-            [f"{u.email} — {u.role.name} — {u.balance}" for u in users])
-        return f"<h3>Пользователи в базе:</h3>{result}"
-
-    except Exception as e:
-        db.rollback()  # если ошибка, откат
-        return f"Ошибка: {e}"
-    finally:
-        db.close()  # закрываем сессию
-
 
 if __name__ == "__main__":
+    session = create_session()
+    try:
+        if session.query(Dish).count() == 0:
+            default_menu = [
+                BreakfastDish(name='Бутерброд с ветчиной', price=200.0),
+                BreakfastDish(name='Какао', price=150.0),
+                BreakfastDish(name='Омлет', price=250.0),
+                BreakfastDish(name='Рисовая каша', price=210.0),
+                Dish(name='Чай', price=70.0)
+            ]
+            session.add_all(default_menu)
+            session.commit()
+    except Exception as e:
+        print(f'Аларм!!! сайта не будет потому что {e}')
+        session.rollback()
+    finally:
+        session.close()
     app.run(debug=True)

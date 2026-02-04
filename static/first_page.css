@@ -58,8 +58,8 @@ body
 }
 .my_logo_class
 {
-    width: 300px;
-    height: 300px;
+    width: 150px;
+    height: 150px;
 }
 .photo_grid {
   display: grid;

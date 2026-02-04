@@ -8,7 +8,7 @@ class Dish(Base):
     __tablename__ = 'dishes'
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
-    name = sqlalchemy.Column(sqlalchemy.String, unique=True)
+    name = sqlalchemy.Column(sqlalchemy.String, unique=False) # ПОМЕНЯЯЯЯЯЙ
     price = sqlalchemy.Column(sqlalchemy.Float, default=0.0)
     type = sqlalchemy.Column(sqlalchemy.String)
 

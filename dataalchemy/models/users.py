@@ -14,11 +14,12 @@ class User(Base, UserMixin):
     hashed_password = sqlalchemy.Column(sqlalchemy.String)
     balance = sqlalchemy.Column(sqlalchemy.Float, default=0.0)
 
-    role_id = sqlalchemy.Column(sqlalchemy.Integer,
-                                sqlalchemy.ForeignKey('roles.id'))
+    role_id = sqlalchemy.Column(sqlalchemy.Integer)
 
-    # связь с таблтцей ролей
-    role = relationship("Role", back_populates="users")
+    __mapper_args__ = {
+        'polymorphic_on': role_id,
+        'polymorphic_identity': 'student',
+    }
 
     def __repr__(self):
         return f'<User> {self.id} {self.name} {self.email}'
@@ -28,3 +29,20 @@ class User(Base, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.hashed_password, password)
+
+
+class RoleAdmin(User):
+    __mapper_args__ = {
+        'polymorphic_identity': 'admin',
+    }
+
+
+class RoleStudent(User):
+    __mapper_args__ = {
+        'polymorphic_identity': 'student',
+    }
+
+class RoleCook(User):
+    __mapper_args__ = {
+        'polymorphic_identity': 'cook',
+    }
