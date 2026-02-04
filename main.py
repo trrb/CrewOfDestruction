@@ -124,4 +124,21 @@ def test_db():
 
 
 if __name__ == "__main__":
+    session = create_session()
+    try:
+        if session.query(Dish).count() == 0:
+            default_menu = [
+                BreakfastDish(name='Бутерброд с ветчиной', price=200.0),
+                BreakfastDish(name='Какао', price=150.0),
+                BreakfastDish(name='Омлет', price=250.0),
+                BreakfastDish(name='Рисовая каша', price=210.0),
+                Dish(name='Чай', price=70.0)
+            ]
+            session.add_all(default_menu)
+            session.commit()
+    except Exception as e:
+        print(f'Аларм!!! сайта не будет потому что{e}')
+        session.rollback()
+    finally:
+        session.close()
     app.run(debug=True)
