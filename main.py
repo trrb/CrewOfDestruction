@@ -1,11 +1,12 @@
 from flask import Flask, render_template, redirect, url_for, request
 from flask_login import LoginManager, login_user, logout_user, login_required
+
 from dataalchemy.db_session import create_session, global_init
-from dataalchemy.models import User, Role, Dish, Food, DishFood, LunchDish, \
-    BreakfastDish
+from dataalchemy.models import User, Role, Dish, Food, DishFood, LunchDish, BreakfastDish
 from forms.register import RegisterForm
 from forms.login import LoginForm
 from forms.first_page import First_page
+from forms.profile import Profile
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'crewdestruct'
@@ -60,6 +61,7 @@ def logout():
 
 
 @app.route('/register', methods=['GET', 'POST'])
+@login_required
 def register():
     form = RegisterForm()
 
@@ -88,7 +90,16 @@ def register():
     return render_template('registration.html', form=form)
 
 
+@app.route('/profile', methods=['GET', 'POST'])
+@login_required
+def profile():
+    form = Profile()
+    return render_template('profile.html', form=form)
+
+
+
 @app.route("/test_db")
+@login_required
 def test_db():
     # создаём сессию для этого запроса
     db = create_session()
