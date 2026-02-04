@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Bascket.css') }}">
     <title>CafeteriaFlow — Вход</title>
 </head>
 <body>
@@ -16,24 +16,6 @@
         <img src="{{ url_for('static', filename='images/logo.png') }}" class="my_logo_class" alt="Логотип">
         {{ form.menu(class_="button_") }}
         {{ form.profile(class_="button_") }}
-        </form>
-    <div class="balance_profile">
-        <a>
-            Мой баланс:
-        </a>
-        <h3>
-            1000руб
-        </h3>
-        <form class="contnet_header" method="post">
-            {{ form.hidden_tag() }}
-            {{ form.top_up_acc(class_="button_balance") }}
-        </form>
-    </div>
-    <div class="check_profile">
-        <a>
-            История заказов:
-        </a>
-    </div>
     </div>
 </body>
 </html>
