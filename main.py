@@ -50,6 +50,9 @@ def login():
 @login_required
 def first_page():
     form = First_page()
+    if form.validate_on_submit():
+        if form.profile.data:
+            return redirect(url_for('profile'))
     return render_template('first_page.html', form=form)
 
 
@@ -94,6 +97,11 @@ def register():
 @login_required
 def profile():
     form = Profile()
+    if form.validate_on_submit():
+        if form.profile.data:
+            return redirect(url_for('profile'))
+        elif form.menu.data:
+            return redirect(url_for('first_page'))
     return render_template('profile.html', form=form)
 
 
