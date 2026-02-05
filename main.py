@@ -12,6 +12,7 @@ from forms.profile import Profile
 from forms.reviews import Reviews
 from forms.bascket import Bascket
 from forms.alergen_add import Alergen_add
+from forms.new_reviews import New_reviews
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'crewdestruct'
@@ -140,7 +141,27 @@ def reviews():
             return redirect(url_for('reviews'))
         elif form.basket.data:
             return redirect(url_for('bascket'))
+        elif form.button_add_reviews.data:
+            return redirect(url_for('new_reviews'))
     return render_template('reviews.html', form=form, reviews=reviews)
+
+
+@app.route('/new_reviews', methods=['GET', 'POST'])
+def new_reviews():
+    form = New_reviews()
+    #session = create_session()
+    #reviews = session.query(Review).all()
+    #session.close()
+    if form.validate_on_submit():
+        if form.profile.data:
+            return redirect(url_for('profile'))
+        elif form.menu.data:
+            return redirect(url_for('first_page'))
+        elif form.button_add_reviews.data:
+            return redirect(url_for('reviews'))
+        elif form.basket.data:
+            return redirect(url_for('bascket'))
+    return render_template('new_reviews.html', form=form, reviews=reviews)
 
 
 @app.route('/bascket', methods=['GET', 'POST'])

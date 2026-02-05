@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import SubmitField, StringField
 
 
-class Reviews(FlaskForm):
+class New_reviews(FlaskForm):
     menu = SubmitField('Меню')
     basket = SubmitField('Корзина')
     profile = SubmitField('Профиль')

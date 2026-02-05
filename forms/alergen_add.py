@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, SubmitField, EmailField
+from wtforms import PasswordField, SubmitField, EmailField, StringField
 from wtforms.validators import DataRequired
 # для простого создания карточек
 from flask import Flask, render_template
@@ -16,4 +16,5 @@ class Alergen_add(FlaskForm):
     top_up_acc = SubmitField('Пополнить')
     alergen_add  = SubmitField('Добавить аллергены')
     reviews = SubmitField('Отзывы')
+    alergen_field = StringField('Напишите аллерген')
     add = SubmitField('+')
