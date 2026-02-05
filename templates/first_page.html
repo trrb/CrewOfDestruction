@@ -23,7 +23,7 @@
     </h1>
     <div class="photo_grid">
         {{ form.hidden_tag() }}
-        {% for dish in dishes %}
+        {% for dish in breakfast %}
         <div class="meal_card">
             <h3>{{ dish.name }}</h3>
             <p class="price_meal">{{ dish.price }} руб.</p>
@@ -34,8 +34,15 @@
     <h1>
         Обед
     </h1>
-    <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae obcaecati amet sequi sed a recusandae odio quo aliquid fugiat? Est velit perspiciatis commodi pariatur! Voluptatum error hic dolores sunt ex!
-    </p>
+    <div class="photo_grid">
+        {{ form.hidden_tag() }}
+        {% for dish in lunch %}
+        <div class="meal_card">
+            <h3>{{ dish.name }}</h3>
+            <p class="price_meal">{{ dish.price }} руб.</p>
+            {{ form.add(class_='button_in_meals') }}
+        </div>
+        {% endfor %}
+    </div>
 </body>
 </html>

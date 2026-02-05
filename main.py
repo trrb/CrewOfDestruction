@@ -4,12 +4,14 @@ from flask_login import LoginManager, login_user, logout_user, login_required, \
 from dataalchemy import create_session, global_init
 from dataalchemy import User, Dish, Food, DishFood, LunchDish, \
     BreakfastDish, RoleAdmin, RoleCook, Review
+from default_menu import default_menu
 from forms.register import RegisterForm
 from forms.login import LoginForm
 from forms.first_page import First_page
 from forms.profile import Profile
 from forms.reviews import Reviews
 from forms.bascket import Bascket
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'crewdestruct'
 
@@ -53,7 +55,9 @@ def login():
 def first_page():
     form = First_page()
     session = create_session()
-    dishes = session.query(Dish).all()
+    lunch = session.query(Dish).filter(Dish.type == 'lunch').all()
+    breakfast = session.query(Dish).filter(Dish.type == 'breakfast').all()
+    dishes = session.query(Dish).filter(Dish.type == 'dish').all()
     session.close()
     if form.validate_on_submit():
         if form.profile.data:
@@ -62,7 +66,8 @@ def first_page():
             return redirect(url_for('reviews'))
         elif form.basket.data:
             return redirect(url_for('bascket'))
-    return render_template('first_page.html', form=form, dishes=dishes)
+    return render_template('first_page.html', form=form, dishes=dishes,
+                           breakfast=breakfast, lunch=lunch)
 
 
 @app.route('/logout')
@@ -130,6 +135,7 @@ def reviews():
             return redirect(url_for('bascket'))
     return render_template('reviews.html', form=form, reviews=reviews)
 
+
 @app.route('/bascket', methods=['GET', 'POST'])
 def bascket():
     form = Bascket()
@@ -146,16 +152,11 @@ def bascket():
 if __name__ == "__main__":
     session = create_session()
     try:
-        if session.query(Dish).count() == 0:
-            default_menu = [
-                BreakfastDish(name='Бутерброд с ветчиной', price=200.0),
-                BreakfastDish(name='Какао', price=150.0),
-                BreakfastDish(name='Омлет', price=250.0),
-                BreakfastDish(name='Рисовая каша', price=210.0),
-                Dish(name='Чай', price=70.0)
-            ]
-            session.add_all(default_menu)
-            session.commit()
+        a = session.query(Dish)
+        for dish in default_menu:
+            if dish not in a:
+                session.add(dish)
+        session.commit()
     except Exception as e:
         print(f'Аларм!!! сайта не будет потому что {e}')
         session.rollback()
