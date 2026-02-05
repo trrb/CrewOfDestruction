@@ -21,9 +21,9 @@
         <a>
             Мой баланс:
         </a>
-        <h3>
-            1000руб(ложь)
-        </h3>
+        <h2>
+            {{ user.balance }}
+        </h2>
         <form class="contnet_header" method="post">
             {{ form.hidden_tag() }}
             {{ form.top_up_acc(class_="button_balance") }}

@@ -18,6 +18,8 @@ class User(Base, UserMixin):
 
     reviews = relationship('Review', back_populates='user')
 
+    """user = relationship('History', back_populates='users')"""
+
     __mapper_args__ = {
         'polymorphic_on': role_id,
         'polymorphic_identity': 'student',

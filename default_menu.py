@@ -6,7 +6,7 @@ default_menu = [
     BreakfastDish(name='Омлет', price=130.0),
     BreakfastDish(name='Рисовая каша', price=200.0),
     BreakfastDish(name='Бутерброд с сыром и маслом', price=30.0),
-    BreakfastDish(name='Овсяная каша', price=99.0),
+    BreakfastDish(name='Каша овсянка', price=99.0),
     BreakfastDish(name='Оладья', price=110.0),
     BreakfastDish(name='Сырники', price=70.0),
     BreakfastDish(name='Запеканка из творога', price=89.0),

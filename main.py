@@ -106,6 +106,10 @@ def register():
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     form = Profile()
+    session = create_session()
+    user = session.query(User).filter(User.id == current_user.id).first()
+    print(user)
+    session.close()
     if form.validate_on_submit():
         if form.profile.data:
             return redirect(url_for('profile'))
@@ -115,7 +119,7 @@ def profile():
             return redirect(url_for('reviews'))
         elif form.basket.data:
             return redirect(url_for('bascket'))
-    return render_template('profile.html', form=form)
+    return render_template('profile.html', form=form, user=user)
 
 
 @app.route('/reviews', methods=['GET', 'POST'])
