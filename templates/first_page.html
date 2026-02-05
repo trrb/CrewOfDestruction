@@ -25,13 +25,17 @@
         {{ form.hidden_tag() }}
         {% for dish in breakfast %}
         <div class="meal_card">
-            <img src="{{ url_for('static', filename='images/breakfast/' ~ dish.name ~ '.jpg') }}"
+            <form method="post">
+                <!-- 3. Твоя "невидимая переменная" с ID блюда -->
+                <input type="hidden" name="dish_id" value="{{ dish.id }}">
+                <img src="{{ url_for('static', filename='images/breakfast/' ~ dish.name ~ '.jpg') }}"
              alt="{{ dish.name }}"
              class="meal_image"
              onerror="this.src='{{ url_for('static', filename='images/no_image.jpg') }}'">
             <h3>{{ dish.name }}</h3>
             <p class="price_meal">{{ dish.price }} руб.</p>
-            {{ form.add(class_='button_in_meals') }}
+            {{ form.add_to_bascket(class_='button_in_meals') }}
+            </form>
         </div>
         {% endfor %}
     </div>
@@ -42,13 +46,17 @@
         {{ form.hidden_tag() }}
         {% for dish in lunch %}
         <div class="meal_card">
-            <img src="{{ url_for('static', filename='images/lunch/' ~ dish.name ~ '.jpg') }}"
+            <form method="post">
+                <!-- 3. Твоя "невидимая переменная" с ID блюда -->
+                <input type="hidden" name="dish_id" value="{{ dish.id }}">
+                <img src="{{ url_for('static', filename='images/lunch/' ~ dish.name ~ '.jpg') }}"
              alt="{{ dish.name }}"
              class="meal_image"
              onerror="this.src='{{ url_for('static', filename='images/no_image.jpg') }}'">
             <h3>{{ dish.name }}</h3>
             <p class="price_meal">{{ dish.price }} руб.</p>
-            {{ form.add(class_='button_in_meals') }}
+            {{ form.add_to_bascket(class_='button_in_meals') }}
+            </form>
         </div>
         {% endfor %}
     </div>

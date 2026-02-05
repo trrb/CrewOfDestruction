@@ -8,4 +8,4 @@ class First_page(FlaskForm):
     profile = SubmitField('Профиль')
     top_up_acc = SubmitField('Пополнить')
     reviews = SubmitField('Отзывы')
-    add = SubmitField('+')
+    add_to_bascket = SubmitField('+')

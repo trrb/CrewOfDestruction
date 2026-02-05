@@ -59,7 +59,6 @@ def first_page():
     lunch = session.query(Dish).filter(Dish.type == 'lunch').all()
     breakfast = session.query(Dish).filter(Dish.type == 'breakfast').all()
     dishes = session.query(Dish).filter(Dish.type == 'dish').all()
-    session.close()
     if form.validate_on_submit():
         if form.profile.data:
             return redirect(url_for('profile'))
@@ -67,6 +66,13 @@ def first_page():
             return redirect(url_for('reviews'))
         elif form.basket.data:
             return redirect(url_for('bascket'))
+        elif form.add_to_bascket.dish.data:
+            dish = request.form.get('dish.id')
+            bascket_in = Bascket(id_user=current_user.id, id_dish=dish, name=None)
+            print(bascket_in.id, bascket_in.name)
+            session.add(bascket_in)
+            session.commit()
+    session.close()
     return render_template('first_page.html', form=form, dishes=dishes,
                            breakfast=breakfast, lunch=lunch)
 

@@ -20,7 +20,11 @@ class User(Base, UserMixin):
 
     history = relationship('History', back_populates='user')
 
-    bascket = relationship('Bascket', back_populates='user')
+    bascket = relationship(
+        'Bascket',
+        back_populates='user',
+        cascade='all, delete-orphan'
+    )
 
     __mapper_args__ = {
         'polymorphic_on': role_id,
