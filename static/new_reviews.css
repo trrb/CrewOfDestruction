@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+/* При заходе на сайт автоматом скачается шрифт */
+body, input, button, textarea, select {
+    font-family: 'Nunito', sans-serif; /* ВЕЗДЕ будет Nunito */
+    color: #22223b; /*темно-синий цвет текста везде*/
+}
+body
+{
+    padding: 0;/*отступы от границ*/
+    overflow-x: hidden;/* no prokrutka po OX */
+    background-color: #f2e9e4;
+    margin: 0; /*отступ всего относительно границ страницы*/
+    height: 100vh;/* тип body занимает 100% экрана*/
+    gap: 20px;
+}
+.header
+{
+    width: 100%;
+    height: 150px;
+    background-color: #4a4e69;
+    margin: 0;
+}
+
+.contnet_header
+{
+    width: 100%;
+    height: 100%;
+    /* Добавляем box-sizing, чтобы padding не ломал ширину 100% */
+    box-sizing: border-box;
+    /* Твои отступы (они сожмут контент внутрь) */
+    padding: 0 50px; /* Сверху 0, по бокам 50px */
+        display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.button_
+{
+    padding: 0 20px;
+    height: 60px;
+    width: 150px;
+    flex-shrink: 0;
+    align-self: center;
+}
+.my_logo_class
+{
+    width: 150px;
+    height: 150px;
+}
