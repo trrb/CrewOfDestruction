@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='alergen_add.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='reviews.css') }}">
     <title>CafeteriaFlow — Вход</title>
 </head>
 <body>
@@ -11,22 +11,12 @@
     <div class="header">
         <form class="contnet_header" method="post">
         {{ form.hidden_tag() }}
-        {{ form.reviews(class_="button_") }}
+        {{ form.menu(class_="button_") }}
         {{ form.basket(class_="button_") }}
         <img src="{{ url_for('static', filename='images/logo.png') }}" class="my_logo_class" alt="Логотип">
-        {{ form.menu(class_="button_") }}
+        {{ form.top_up_acc(class_="button_") }}
         {{ form.profile(class_="button_") }}
         </form>
-    </div>
-    <h2 class="my_alerg">
-        Мои аллергены
-    </h2>
-    <div class="my_alergen">
-    </div>
-    <h2 class="all_alerg">
-        Все аллергены
-    </h2>
-    <div class="all_alergen">
     </div>
 </body>
 </html>

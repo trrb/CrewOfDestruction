@@ -108,7 +108,8 @@ h3 {
     margin: 5px 0;               /* Отступ сверху и снизу */
 }
 
-.button_in_meals {
+.button_in_meals
+{
     margin-top: 10px;            /* Отступ сверху перед кнопкой */
     padding: 5px 10px;           /* Внутренние отступы кнопки, чтобы она была больше */
     border-radius: 5px;          /* Скругляем углы кнопки */
@@ -116,4 +117,52 @@ h3 {
     background-color: #4a4e69;   /* Цвет кнопки */
     color: white;                /* Цвет текста кнопки */
     border: none;                /* Убираем рамку кнопки */
+}
+.my_alerg
+{
+    position: absolute;
+    top: 190px;
+    left: 240px;
+}
+.all_alerg
+{
+    position: absolute;
+    top: 190px;
+    right: 240px;
+}
+.my_alergen
+{
+    border-radius: 20px;/* Скругление */
+    border-bottom-left-radius: 20px;
+    background-color: #c9ada7;/* Цвет фона */
+    padding: 20px;/* Отступы внутри */
+    border: 1px solid #9a8c98;   /* Тонкая рамка */
+    width: 450px;/* Ширина блока */
+    height: 400px;/*Высота блока */
+    gap: 40px; /*расстояние между элементами внутри бокса */
+    flex-direction: column; /* как буду располагаться элементы */
+    align-items: center;
+    font-size: 20px;
+    display: flex;/*флекс +вайб и все этом духе*/
+    position: absolute;
+    top: 280px;
+    left: 100px;
+}
+.all_alergen
+{
+    border-radius: 20px;/* Скругление */
+    border-bottom-left-radius: 20px;
+    background-color: #c9ada7;/* Цвет фона */
+    padding: 20px;/* Отступы внутри */
+    border: 1px solid #9a8c98;   /* Тонкая рамка */
+    width: 450px;/* Ширина блока */
+    height: 400px;/*Высота блока */
+    gap: 40px; /*расстояние между элементами внутри бокса */
+    flex-direction: column; /* как буду располагаться элементы */
+    align-items: center;
+    font-size: 20px;
+    display: flex;/*флекс +вайб и все этом духе*/
+    position: absolute;
+    top: 280px;
+    right: 100px;
 }
