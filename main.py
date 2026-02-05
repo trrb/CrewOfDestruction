@@ -11,6 +11,7 @@ from forms.first_page import First_page
 from forms.profile import Profile
 from forms.reviews import Reviews
 from forms.bascket import Bascket
+from forms.alergen_add import Alergen_add
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'crewdestruct'
@@ -119,6 +120,8 @@ def profile():
             return redirect(url_for('reviews'))
         elif form.basket.data:
             return redirect(url_for('bascket'))
+        elif form.alergen.data:
+            return redirect(url_for('alergen_add'))
     return render_template('profile.html', form=form, user=user)
 
 
@@ -151,6 +154,21 @@ def bascket():
         elif form.reviews.data:
             return redirect(url_for('reviews'))
     return render_template('bascket.html', form=form)
+
+
+@app.route('/alergen_add', methods=['GET', 'POST'])
+def alergen_add():
+    form = Alergen_add()
+    if form.validate_on_submit():
+        if form.profile.data:
+            return redirect(url_for('profile'))
+        elif form.menu.data:
+            return redirect(url_for('first_page'))
+        elif form.reviews.data:
+            return redirect(url_for('reviews'))
+        elif form.basket.data:
+            return redirect(url_for('bascket'))
+    return render_template('alergen_add.html', form=form)
 
 
 if __name__ == "__main__":

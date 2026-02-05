@@ -9,11 +9,11 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 
-class Profile(FlaskForm):
+class Alergen_add(FlaskForm):
     menu = SubmitField('Меню')
     basket = SubmitField('Корзина')
     profile = SubmitField('Профиль')
     top_up_acc = SubmitField('Пополнить')
-    alergen  = SubmitField('Изменить аллергены')
+    alergen_add  = SubmitField('Добавить аллергены')
     reviews = SubmitField('Отзывы')
     add = SubmitField('+')
