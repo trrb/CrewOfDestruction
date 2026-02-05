@@ -18,7 +18,10 @@ class Dish(Base):
         back_populates='dishes'
     )
 
-    bascket = relationship('Bascket', back_populates='dishes', lazy='joined')
+    bascket = relationship(
+        'Bascket',
+        back_populates='dish'
+    )
 
     __mapper_args__ = {
         "polymorphic_on": type,

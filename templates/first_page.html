@@ -4,53 +4,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='first_page.css') }}">
-    <title>CafeteriaFlow — Вход</title>
+    <title>CafeteriaFlow</title>
 </head>
 <body>
-    {{ form.hidden_tag() }}
-    <div class="header">
-        <form class="contnet_header" method="post">
+
+<!-- ===== HEADER ===== -->
+<div class="header">
+    <form class="contnet_header" method="post">
         {{ form.hidden_tag() }}
+
         {{ form.reviews(class_="button_") }}
         {{ form.basket(class_="button_") }}
-        <img src="{{ url_for('static', filename='images/logo.png') }}" class="my_logo_class" alt="Логотип">
+
+        <img src="{{ url_for('static', filename='images/logo.png') }}"
+             class="my_logo_class"
+             alt="Логотип">
+
         {{ form.top_up_acc(class_="button_") }}
         {{ form.profile(class_="button_") }}
+    </form>
+</div>
+
+<!-- ===== ЗАВТРАК ===== -->
+<h1>Завтрак</h1>
+
+<div class="photo_grid">
+    {% for dish in breakfast %}
+    <div class="meal_card">
+        <form method="post">
+            {{ form.hidden_tag() }}
+
+            <!-- Скрытый input с ID блюда -->
+            <input type="hidden" name="dish_id" value="{{ dish.id }}">
+
+            <!-- Картинка -->
+            <img src="{{ url_for('static', filename='images/breakfast/' ~ dish.name ~ '.jpg') }}"
+                 alt="{{ dish.name }}"
+                 class="meal_image"
+                 onerror="this.src='{{ url_for('static', filename='images/no_image.jpg') }}'">
+
+            <!-- Название блюда -->
+            <h3>{{ dish.name }}</h3>
+
+            <!-- Цена -->
+            <p class="price_meal">{{ dish.price }} руб.</p>
+
+            <!-- Кнопка "добавить" -->
+            <button type="submit" class="button_in_meals">+</button>
         </form>
     </div>
-    <h1>
-        Завтрак
-    </h1>
-    <div class="photo_grid">
-        {{ form.hidden_tag() }}
-        {% for dish in breakfast %}
-        <div class="meal_card">
-            <img src="{{ url_for('static', filename='images/breakfast/' ~ dish.name ~ '.jpg') }}"
-             alt="{{ dish.name }}"
-             class="meal_image"
-             onerror="this.src='{{ url_for('static', filename='images/no_image.jpg') }}'">
-            <h3>{{ dish.name }}</h3>
-            <p class="price_meal">{{ dish.price }} руб.</p>
-            {{ form.add(class_='button_in_meals') }}
-        </div>
-        {% endfor %}
-    </div>
-    <h1>
-        Обед
-    </h1>
-    <div class="photo_grid">
-        {{ form.hidden_tag() }}
-        {% for dish in lunch %}
-        <div class="meal_card">
+    {% endfor %}
+</div>
+
+<!-- ===== ОБЕД ===== -->
+<h1>Обед</h1>
+
+<div class="photo_grid">
+    {% for dish in lunch %}
+    <div class="meal_card">
+        <form method="post">
+            {{ form.hidden_tag() }}
+
+            <input type="hidden" name="dish_id" value="{{ dish.id }}">
+
             <img src="{{ url_for('static', filename='images/lunch/' ~ dish.name ~ '.jpg') }}"
-             alt="{{ dish.name }}"
-             class="meal_image"
-             onerror="this.src='{{ url_for('static', filename='images/no_image.jpg') }}'">
+                 alt="{{ dish.name }}"
+                 class="meal_image"
+                 onerror="this.src='{{ url_for('static', filename='images/no_image.jpg') }}'">
+
             <h3>{{ dish.name }}</h3>
             <p class="price_meal">{{ dish.price }} руб.</p>
-            {{ form.add(class_='button_in_meals') }}
-        </div>
-        {% endfor %}
+
+            <button type="submit" class="button_in_meals">+</button>
+        </form>
     </div>
+    {% endfor %}
+</div>
+
 </body>
 </html>

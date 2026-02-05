@@ -1,16 +1,16 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request
 from flask_login import LoginManager, login_user, logout_user, login_required, \
     current_user
 from dataalchemy import create_session, global_init
 from dataalchemy import User, Dish, Food, DishFood, LunchDish, \
-    BreakfastDish, RoleAdmin, RoleCook, Review
+    BreakfastDish, RoleAdmin, RoleCook, Review, Bascket
 from default_menu import default_menu
 from forms.register import RegisterForm
 from forms.login import LoginForm
 from forms.first_page import First_page
 from forms.profile import Profile
 from forms.reviews import Reviews
-from forms.bascket import Bascket
+from forms.bascketform import BascketForm
 from forms.alergen_add import Alergen_add
 from forms.new_reviews import New_reviews
 
@@ -52,15 +52,24 @@ def login():
     return render_template('log_in.html', form=form)
 
 
-@app.route('/first_page', methods=['GET', 'POST'])  # Изменил 02.02.2026
+@app.route('/first_page', methods=['GET', 'POST'])
 @login_required
 def first_page():
     form = First_page()
     session = create_session()
-    lunch = session.query(Dish).filter(Dish.type == 'lunch').all()
     breakfast = session.query(Dish).filter(Dish.type == 'breakfast').all()
+    lunch = session.query(Dish).filter(Dish.type == 'lunch').all()
     dishes = session.query(Dish).filter(Dish.type == 'dish').all()
-    session.close()
+
+    if request.method == 'POST':
+        dish_id = request.form.get('dish_id')
+        if dish_id:
+            new_bascket = Bascket(dish_id=int(dish_id),
+                                  user_id=current_user.id)
+            session.add(new_bascket)
+            session.commit()
+    rendered = render_template('first_page.html', form=form, dishes=dishes,
+                               breakfast=breakfast, lunch=lunch)
     if form.validate_on_submit():
         if form.profile.data:
             return redirect(url_for('profile'))
@@ -68,8 +77,8 @@ def first_page():
             return redirect(url_for('reviews'))
         elif form.basket.data:
             return redirect(url_for('bascket'))
-    return render_template('first_page.html', form=form, dishes=dishes,
-                           breakfast=breakfast, lunch=lunch)
+    session.close()
+    return rendered
 
 
 @app.route('/logout')
@@ -166,7 +175,7 @@ def new_reviews():
 
 @app.route('/bascket', methods=['GET', 'POST'])
 def bascket():
-    form = Bascket()
+    form = BascketForm()
     if form.validate_on_submit():
         if form.profile.data:
             return redirect(url_for('profile'))

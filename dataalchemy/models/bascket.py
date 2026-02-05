@@ -8,10 +8,19 @@ class Bascket(Base):
     __tablename__ = 'bascket'
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
-    id_user = sqlalchemy.Column(sqlalchemy.Integer,
-                                sqlalchemy.ForeignKey('users.id'))
-    id_dish = sqlalchemy.Column(sqlalchemy.Integer,
-                                 sqlalchemy.ForeignKey('dishes.id'))
 
-    user = relationship('User', back_populates='bascket', lazy='joined')
-    dishes = relationship('Dish', back_populates='bascket', lazy='joined')
+    user_id = sqlalchemy.Column(
+        sqlalchemy.Integer,
+        sqlalchemy.ForeignKey('users.id'),
+        nullable=False
+    )
+
+    dish_id = sqlalchemy.Column(
+        sqlalchemy.Integer,
+        sqlalchemy.ForeignKey('dishes.id'),
+        nullable=False
+    )
+
+
+    user = relationship('User', back_populates='bascket')
+    dish = relationship('Dish', back_populates='bascket')

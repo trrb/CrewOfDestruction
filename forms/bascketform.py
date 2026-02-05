@@ -9,7 +9,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 
-class Bascket(FlaskForm):
+class BascketForm(FlaskForm):
     menu = SubmitField('Меню')
     basket = SubmitField('Корзина')
     profile = SubmitField('Профиль')

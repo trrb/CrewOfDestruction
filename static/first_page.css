@@ -1,128 +1,131 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
-/* При заходе на сайт автоматом скачается шрифт */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200..1000&display=swap');
+
+/* ===== БАЗА ===== */
+* {
+    box-sizing: border-box;
+}
+
 body, input, button, textarea, select {
-    font-family: 'Nunito', sans-serif; /* ВЕЗДЕ будет Nunito */
-    color: #22223b; /*темно-синий цвет текста везде*/
+    font-family: 'Nunito', sans-serif;
+    color: #22223b;
 }
-body
-{
-    padding: 0;/*отступы от границ*/
-    overflow-x: hidden;/* no prokrutka po OX */
-    background-color: #f2e9e4; 
-    margin: 0; /*отступ всего относительно границ страницы*/
-    height: 100vh;/* тип body занимает 100% экрана*/
-    gap: 20px;
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f2e9e4;
+    overflow-x: hidden;
 }
-.header 
-{
+
+/* ===== HEADER ===== */
+.header {
     width: 100%;
     height: 150px;
     background-color: #4a4e69;
-    margin: 0;
 }
 
-.contnet_header 
-{
-    width: 100%; 
-    height: 100%; 
-    /* Добавляем box-sizing, чтобы padding не ломал ширину 100% */
-    box-sizing: border-box; 
-    /* Твои отступы (они сожмут контент внутрь) */
-    padding: 0 50px; /* Сверху 0, по бокам 50px */
-        display: flex;
-    flex-direction: row;
+.contnet_header {
+    height: 100%;
+    padding: 0 50px;
+
+    display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.button_
-{
-    padding: 0 20px;
+.button_ {
     height: 60px;
     width: 150px;
+    padding: 0 20px;
     flex-shrink: 0;
-    align-self: center;
-}
-.button_meals
-{
-    margin: 10px;
-    display: flex;/*флекс +вайб и все этом духе*/
-    flex-direction: row ; /* как буду располагаться элементы */
-    gap: 20px; /*расстояние между элементами внутри бокса */
 }
 
-.my_logo_class
-{
+.my_logo_class {
     width: 150px;
     height: 150px;
 }
-.photo_grid {
-    display: grid;
 
-    /* автоматически подбирает колонки, но не больше 6 */
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-
-    gap: 20px;
-    padding: 20px;
-
-    /* 6 × 250px + gap ≈ максимум */
-    max-width: calc(6 * 250px + 5 * 10px);
-    margin: 0 auto;
-}
-h1
-{
+/* ===== ЗАГОЛОВКИ ===== */
+h1 {
     text-align: center;
     font-size: 40px;
+    margin: 30px 0 10px;
 }
+
+/* ===== GRID ===== */
+.photo_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+
+    padding: 20px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* ===== КАРТОЧКА ===== */
 .meal_card {
     position: relative;
-    display: flex;              /* Говорим, что внутри карточки элементы будут выстраиваться по флексу */
-    flex-direction: column;     /* Элементы идут сверху вниз (картинка, название, цена, кнопка) */
-    justify-content: space-between; /* Разделяем элементы по вертикали, чтобы не налезали друг на друга */
-    align-items: center;        /* Центрируем элементы по горизонтали внутри карточки */
-    min-height: 200px;          /* Минимальная высота карточки — карточка не сожмется меньше этого */
-    border: 1px solid #ddd;     /* Тонкая серая рамка вокруг карточки */
-    border-radius: 8px;         /* Скругленные углы */
-    padding: 10px;              /* Внутренние отступы, чтобы элементы не прилипали к краям */
-    background-color: #f9f9f9;  /* Светлый фон карточки */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Тень под карточкой для объёма */
-    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Анимация при наведении */
-    overflow: hidden;           /* Всё, что выходит за границы карточки, скрываем */
-}
-.price_meal {
-    position: absolute;
-    top: 85%;
-    left: 5%;
-    font-weight: bold;           /* Делаем цену жирной, чтобы выделялась */
-    margin: 5px 0;               /* Отступ сверху и снизу */
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.meal_card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+/* ===== КАРТИНКА ===== */
+.meal_image {
+    width: 100%;
+    height: 160px;
+
+    object-fit: cover;
+    border-radius: 6px;
+
+    pointer-events: none;
+}
+
+/* ===== НАЗВАНИЕ ===== */
+.meal_card h3 {
+    margin: 6px 0 0;
+    font-size: 18px;
+    text-align: center;
+}
+
+/* ===== ЦЕНА ===== */
+.price_meal {
+    margin-bottom: 40px; /* место под кнопку */
+    font-weight: bold;
+    text-align: center;
+}
+
+/* ===== КНОПКА ===== */
 .button_in_meals {
     position: absolute;
-    top: 80%;
-    right: 5%;
-    margin-top: 10px;            /* Отступ сверху перед кнопкой */
-    padding: 5px 10px;           /* Внутренние отступы кнопки, чтобы она была больше */
-    border-radius: 5px;          /* Скругляем углы кнопки */
-    cursor: pointer;             /* Курсор меняется на руку при наведении */
-    background-color: #4a4e69;   /* Цвет кнопки */
-    color: white;                /* Цвет текста кнопки */
-    border: none;                /* Убираем рамку кнопки */
+    bottom: 10px;
+    right: 10px;
+
+    padding: 6px 12px;
+    border-radius: 6px;
+
+    background-color: #4a4e69;
+    color: white;
+    border: none;
+
+    cursor: pointer;
 }
 
-.meal_image {
-    position: relative;
-    width: 100%;                /* Картинка занимает всю ширину карточки */
-    height: 70%;              /* Фиксированная высота картинки */
-    object-fit: cover;          /* Обрезаем картинку по размеру, не растягиваем */
-    border-radius: 6px;         /* Скругляем углы картинки */
-    margin-bottom: 10px;        /* Отступ под картинкой, чтобы название не прилипало */
-}
-
-h3 {
-    position: absolute;
-    top: 70%;
-    margin: 5px 0;              /* Отступ сверху и снизу у названия */
-    text-align: center;         /* Выравниваем текст по центру */
-    font-size: 18px;            /* Размер шрифта для названия блюда */
+.button_in_meals:hover {
+    background-color: #3a3e59;
 }
