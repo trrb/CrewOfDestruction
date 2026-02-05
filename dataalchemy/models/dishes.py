@@ -18,6 +18,8 @@ class Dish(Base):
         back_populates='dishes'
     )
 
+    bascket = relationship('Bascket', back_populates='dishes', lazy='joined')
+
     __mapper_args__ = {
         "polymorphic_on": type,
         "polymorphic_identity": "dish"

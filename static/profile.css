@@ -75,13 +75,14 @@ body
     position: absolute;
     font-size: 30px;
     display: flex;/*флекс +вайб и все этом духе*/
-    top: 270px;
+    top: 205px;
     left: 150px;
 
 }
 .check_profile
 {
-    border-radius: 20px;/* Скругление */
+    border-top-left-radius: 20px;/* Скругление */
+    border-bottom-left-radius: 20px;
     background-color: #c9ada7;/* Цвет фона */
     padding: 20px;/* Отступы внутри */
     border: 1px solid #9a8c98;   /* Тонкая рамка */
@@ -94,7 +95,7 @@ body
     display: flex;/*флекс +вайб и все этом духе*/
     position:   absolute;
     top: 205px;
-    right: -20px;
+    right: 0px;
 }
 .button_balance
 {
@@ -106,4 +107,15 @@ body
     position: absolute;
     bottom: 10px;
     width: 67%;
+}
+.alergen
+{
+    padding: 0 20px;
+    height: 60px;
+    width: 420px;
+    flex-shrink: 0;
+    align-self: center;
+    position: absolute;
+    top: 600px;
+    left: 150px;
 }

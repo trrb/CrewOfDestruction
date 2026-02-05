@@ -1,4 +1,4 @@
-"""import sqlalchemy
+import sqlalchemy
 import datetime
 from sqlalchemy.orm import relationship
 from .base import Base
@@ -16,4 +16,3 @@ class History(Base):
     created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
 
     user = relationship('User', back_populates='history', lazy='joined')
-"""

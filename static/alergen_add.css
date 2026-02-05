@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+/* При заходе на сайт автоматом скачается шрифт */
+body, input, button, textarea, select {
+    font-family: 'Nunito', sans-serif; /* ВЕЗДЕ будет Nunito */
+    color: #22223b; /*темно-синий цвет текста везде*/
+}
+body
+{
+    padding: 0;/*отступы от границ*/
+    overflow-x: hidden;/* no prokrutka po OX */
+    background-color: #f2e9e4;
+    margin: 0; /*отступ всего относительно границ страницы*/
+    height: 100vh;/* тип body занимает 100% экрана*/
+    gap: 20px;
+}
+.header
+{
+    width: 100%;
+    height: 150px;
+    background-color: #4a4e69;
+    margin: 0;
+}
+
+.contnet_header
+{
+    width: 100%;
+    height: 100%;
+    /* Добавляем box-sizing, чтобы padding не ломал ширину 100% */
+    box-sizing: border-box;
+    /* Твои отступы (они сожмут контент внутрь) */
+    padding: 0 50px; /* Сверху 0, по бокам 50px */
+        display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.button_
+{
+    padding: 0 20px;
+    height: 60px;
+    width: 150px;
+    flex-shrink: 0;
+    align-self: center;
+}
+.button_meals
+{
+    margin: 10px;
+    display: flex;/*флекс +вайб и все этом духе*/
+    flex-direction: row ; /* как буду располагаться элементы */
+    gap: 20px; /*расстояние между элементами внутри бокса */
+}
+
+.my_logo_class
+{
+    width: 150px;
+    height: 150px;
+}
+.photo_grid {
+    display: grid;
+
+    /* автоматически подбирает колонки, но не больше 6 */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+    gap: 20px;
+    padding: 20px;
+
+    /* 6 × 250px + gap ≈ максимум */
+    max-width: calc(6 * 250px + 5 * 10px);
+    margin: 0 auto;
+}
+h1
+{
+    text-align: center;
+    font-size: 40px;
+}
+.meal_card {
+    display: flex;              /* Говорим, что внутри карточки элементы будут выстраиваться по флексу */
+    flex-direction: column;     /* Элементы идут сверху вниз (картинка, название, цена, кнопка) */
+    justify-content: space-between; /* Разделяем элементы по вертикали, чтобы не налезали друг на друга */
+    align-items: center;        /* Центрируем элементы по горизонтали внутри карточки */
+    min-height: 200px;          /* Минимальная высота карточки — карточка не сожмется меньше этого */
+    border: 1px solid #ddd;     /* Тонкая серая рамка вокруг карточки */
+    border-radius: 8px;         /* Скругленные углы */
+    padding: 10px;              /* Внутренние отступы, чтобы элементы не прилипали к краям */
+    background-color: #f9f9f9;  /* Светлый фон карточки */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Тень под карточкой для объёма */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Анимация при наведении */
+    overflow: hidden;           /* Всё, что выходит за границы карточки, скрываем */
+}
+
+.meal_image {
+    width: 100%;                /* Картинка занимает всю ширину карточки */
+    height: 150px;              /* Фиксированная высота картинки */
+    object-fit: cover;          /* Обрезаем картинку по размеру, не растягиваем */
+    border-radius: 6px;         /* Скругляем углы картинки */
+    margin-bottom: 10px;        /* Отступ под картинкой, чтобы название не прилипало */
+}
+
+h3 {
+    margin: 5px 0;              /* Отступ сверху и снизу у названия */
+    text-align: center;         /* Выравниваем текст по центру */
+    font-size: 18px;            /* Размер шрифта для названия блюда */
+}
+
+.price_meal {
+    font-weight: bold;           /* Делаем цену жирной, чтобы выделялась */
+    margin: 5px 0;               /* Отступ сверху и снизу */
+}
+
+.button_in_meals {
+    margin-top: 10px;            /* Отступ сверху перед кнопкой */
+    padding: 5px 10px;           /* Внутренние отступы кнопки, чтобы она была больше */
+    border-radius: 5px;          /* Скругляем углы кнопки */
+    cursor: pointer;             /* Курсор меняется на руку при наведении */
+    background-color: #4a4e69;   /* Цвет кнопки */
+    color: white;                /* Цвет текста кнопки */
+    border: none;                /* Убираем рамку кнопки */
+}
