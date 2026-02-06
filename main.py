@@ -70,6 +70,7 @@ def first_page():
             session.commit()
     rendered = render_template('first_page.html', form=form, dishes=dishes,
                                breakfast=breakfast, lunch=lunch)
+    session.close()
     if form.validate_on_submit():
         if form.profile.data:
             return redirect(url_for('profile'))
@@ -77,7 +78,6 @@ def first_page():
             return redirect(url_for('reviews'))
         elif form.basket.data:
             return redirect(url_for('bascket'))
-    session.close()
     return rendered
 
 
