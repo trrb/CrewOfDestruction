@@ -64,7 +64,8 @@ h1 {
 }
 
 /* ===== КАРТОЧКА ===== */
-.meal_card {
+.meal_card
+ {
     position: relative;
 
     display: flex;
@@ -72,6 +73,7 @@ h1 {
     gap: 8px;
 
     padding: 10px;
+    min-height: 250px ;
     border-radius: 8px;
     border: 1px solid #ddd;
     background-color: #f9f9f9;
@@ -105,6 +107,9 @@ h1 {
 
 /* ===== ЦЕНА ===== */
 .price_meal {
+    position: absolute;
+    top: 80%;
+    left: 10px;
     margin-bottom: 40px; /* место под кнопку */
     font-weight: bold;
     text-align: center;

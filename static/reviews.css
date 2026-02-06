@@ -35,14 +35,40 @@ body
     justify-content: space-between;
 }
 
-.button_
-{
+.button_ {
+    /* Твои текущие стили */
     padding: 0 20px;
     height: 60px;
     width: 150px;
     flex-shrink: 0;
     align-self: center;
+
+    /* --- Что нужно добавить: --- */
+
+    /* 1. Делаем элемент блочным, чтобы сработали height и width */
+    display: flex;             /* Или inline-flex, чтобы работало центрирование внутри */
+    align-items: center;       /* Центрируем текст по вертикали */
+    justify-content: center;   /* Центрируем текст по горизонтали */
+
+    /* 2. Убираем "ссылочный" вид */
+    text-decoration: none;     /* Убирает подчеркивание */
+    color: black;              /* Цвет текста (поставь свой, если нужен другой) */
+
+    /* 3. Рисуем саму кнопку (похоже на стандартный input) */
+    background-color: #f0f0f0; /* Светло-серый фон (как у стандартной кнопки) */
+    border: 1px solid #767676; /* Стандартная рамка (или убери: border: none;) */
+    border-radius: 2px;        /* Скругление углов (если нужно) */
+    box-sizing: border-box;    /* Чтобы padding не увеличивал размер кнопки */
+    font-size: 13.3333px;      /* Стандартный размер шрифта кнопок браузера */
+    font-family: Arial, sans-serif; /* Шрифт как у кнопок */
 }
+
+/* Эффект при наведении (опционально) */
+.button_:hover {
+    background-color: #e0e0e0;
+    cursor: pointer;
+}
+
 .my_logo_class
 {
     width: 150px;
@@ -90,4 +116,40 @@ body
     position:   absolute;
     top: 160px;
     left: 50px;
+}
+.button_href {
+    /* Твои текущие стили */
+    padding: 0 20px;
+    height: 60px;
+    width: 150px;
+    flex-shrink: 0;
+    align-self: center;
+    flex-shrink: 0;
+    position:   absolute;
+    top: 170px;
+    left: 50px;
+
+
+    /* 1. Делаем элемент блочным, чтобы сработали height и width */
+    display: flex;             /* Или inline-flex, чтобы работало центрирование внутри */
+    align-items: center;       /* Центрируем текст по вертикали */
+    justify-content: center;   /* Центрируем текст по горизонтали */
+
+    /* 2. Убираем "ссылочный" вид */
+    text-decoration: none;     /* Убирает подчеркивание */
+    color: black;              /* Цвет текста (поставь свой, если нужен другой) */
+
+    /* 3. Рисуем саму кнопку (похоже на стандартный input) */
+    background-color: #f0f0f0; /* Светло-серый фон (как у стандартной кнопки) */
+    border: 1px solid #767676; /* Стандартная рамка (или убери: border: none;) */
+    border-radius: 2px;        /* Скругление углов (если нужно) */
+    box-sizing: border-box;    /* Чтобы padding не увеличивал размер кнопки */
+    font-size: 13.3333px;      /* Стандартный размер шрифта кнопок браузера */
+    font-family: Arial, sans-serif; /* Шрифт как у кнопок */
+}
+
+/* Эффект при наведении (опционально) */
+.button_href:hover {
+    background-color: #e0e0e0;
+    cursor: pointer;
 }

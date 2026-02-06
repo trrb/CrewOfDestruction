@@ -28,7 +28,7 @@ body
     box-sizing: border-box;
     /* Твои отступы (они сожмут контент внутрь) */
     padding: 0 50px; /* Сверху 0, по бокам 50px */
-        display: flex;
+    display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
@@ -57,11 +57,12 @@ body
     gap: 40px; /*расстояние между элементами внутри бокса */
     flex-direction: column; /* как буду располагаться элементы */
     align-items: center;
-    position: absolute;
+    position: relative;
     font-size: 30px;
     display: flex;/*флекс +вайб и все этом духе*/
-    top: 205px;
-    left: 100px;
+    top: 50px;
+    left: 50px;
+    margin-bottom: 20px;
 }
 .bascket_summ
 {
@@ -70,8 +71,8 @@ body
     padding: 20px;/* Отступы внутри */
     border: 1px solid #9a8c98;   /* Тонкая рамка */
     width: 300px;/* Ширина блока */
-    height: 70px;/*Высота блока */
-    gap: 40px; /*расстояние между элементами внутри бокса */
+    height: 120px;/*Высота блока */
+    gap: 0;
     flex-direction: column; /* как буду располагаться элементы */
     align-items: center;
     position: absolute;
@@ -88,6 +89,90 @@ body
     flex-shrink: 0;
     align-self: center;
     position: absolute;
-    top: 350px;
+    top: 380px;
     right: 200px;
+}
+/* ===== GRID ===== */
+.photo_grid
+ {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+
+    padding: 20px;
+    max-width: 800px;
+    margin-left: 0;
+    margin-right: auto;
+}
+.meal_card
+ {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    padding: 10px;
+    min-height: 250px ;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.meal_card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+/* ===== КАРТИНКА ===== */
+.meal_image {
+    width: 100%;
+    height: 160px;
+
+    object-fit: cover;
+    border-radius: 6px;
+
+    pointer-events: none;
+}
+
+/* ===== НАЗВАНИЕ ===== */
+.meal_card h3 {
+    margin: 6px 0 0;
+    font-size: 18px;
+    text-align: center;
+}
+
+/* ===== ЦЕНА ===== */
+.price_meal {
+    position: absolute;
+    top: 80%;
+    left: 10px;
+    margin-bottom: 40px; /* место под кнопку */
+    font-weight: bold;
+    text-align: center;
+}
+
+/* ===== КНОПКА ===== */
+.button_in_meals
+{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+
+    padding: 6px 12px;
+    border-radius: 6px;
+
+    background-color: #4a4e69;
+    color: white;
+    border: none;
+
+    cursor: pointer;
+}
+
+.button_in_meals:hover
+{
+   background-color: #3a3e59;
 }

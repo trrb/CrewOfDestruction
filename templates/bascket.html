@@ -18,8 +18,61 @@
         {{ form.profile(class_="button_") }}
         </form>
     </div>
-    <div class="bascket_element">
+    <div class="photo_grid">
+    {% for dish in breakfast %}
+    {% for elem in object %}
+    {% if dish.id == elem.dish_id %}
+    <div class="meal_card">
+        <form method="post">
+            {{ form.hidden_tag() }}
 
+            <!-- Скрытый input с ID блюда -->
+            <input type="hidden" name="dish_id" value="{{ dish.id }}">
+
+            <!-- Картинка -->
+            <img src="{{ url_for('static', filename='images/breakfast/' ~ dish.name ~ '.jpg') }}"
+                 alt="{{ dish.name }}"
+                 class="meal_image"
+                 onerror="this.src='{{ url_for('static', filename='images/no_image.jpg') }}'">
+
+            <!-- Название блюда -->
+            <h3>{{ dish.name }}</h3>
+
+            <!-- Цена -->
+            <p class="price_meal">{{ dish.price }} руб.</p>
+
+            <!-- Кнопка "добавить" -->
+            <button type="submit" class="button_in_meals">-</button>
+        </form>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endfor %}
+    </div>
+    <div class="photo_grid">
+    {% for dish in lunch %}
+    {% for elem in object %}
+    {% if dish.id == elem.dish_id %}
+    <div class="meal_card">
+        <form method="post">
+            {{ form.hidden_tag() }}
+
+            <input type="hidden" name="dish_id" value="{{ dish.id }}">
+
+            <img src="{{ url_for('static', filename='images/lunch/' ~ dish.name ~ '.jpg') }}"
+                 alt="{{ dish.name }}"
+                 class="meal_image"
+                 onerror="this.src='{{ url_for('static', filename='images/no_image.jpg') }}'">
+
+            <h3>{{ dish.name }}</h3>
+            <p class="price_meal">{{ dish.price }} руб.</p>
+
+            <button type="submit" class="button_in_meals">-</button>
+        </form>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endfor %}
     </div>
     <div class="bascket_summ">
         Итог:

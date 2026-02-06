@@ -13,6 +13,7 @@ from forms.reviews import Reviews
 from forms.bascketform import BascketForm
 from forms.alergen_add import Alergen_add
 from forms.new_reviews import New_reviews
+from forms.top_up_acc import Top_up_acc
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'crewdestruct'
@@ -78,6 +79,8 @@ def first_page():
             return redirect(url_for('reviews'))
         elif form.basket.data:
             return redirect(url_for('bascket'))
+        elif form.top_up_acc.data:
+            return redirect(url_for('top_up_acc'))
     return rendered
 
 
@@ -132,6 +135,8 @@ def profile():
             return redirect(url_for('bascket'))
         elif form.alergen.data:
             return redirect(url_for('alergen_add'))
+        elif form.top_up_acc.data:
+            return redirect(url_for('top_up_acc'))
     return render_template('profile.html', form=form, user=user)
 
 
@@ -146,21 +151,18 @@ def reviews():
             return redirect(url_for('profile'))
         elif form.menu.data:
             return redirect(url_for('first_page'))
-        elif form.button_add_reviews.data:
-            return redirect(url_for('reviews'))
         elif form.basket.data:
             return redirect(url_for('bascket'))
         elif form.button_add_reviews.data:
             return redirect(url_for('new_reviews'))
+        elif form.top_up_acc.data:
+            return redirect(url_for('top_up_acc'))
     return render_template('reviews.html', form=form, reviews=reviews)
 
 
 @app.route('/new_reviews', methods=['GET', 'POST'])
 def new_reviews():
     form = New_reviews()
-    #session = create_session()
-    #reviews = session.query(Review).all()
-    #session.close()
     if form.validate_on_submit():
         if form.profile.data:
             return redirect(url_for('profile'))
@@ -170,12 +172,20 @@ def new_reviews():
             return redirect(url_for('reviews'))
         elif form.basket.data:
             return redirect(url_for('bascket'))
-    return render_template('new_reviews.html', form=form, reviews=reviews)
+        elif form.top_up_acc.data:
+            return redirect(url_for('top_up_acc'))
+    return render_template('new_reviews.html', form=form)
 
 
 @app.route('/bascket', methods=['GET', 'POST'])
 def bascket():
     form = BascketForm()
+    session = create_session()
+    object = session.query(Bascket).filter(Bascket.user_id == current_user.id).all()
+    breakfast = session.query(Dish).filter(Dish.type == 'breakfast' and Bascket.user_id == current_user.id).all()
+    lunch = session.query(Dish).filter(Dish.type == 'lunch' and Bascket.user_id == current_user.id).all()
+    dishes = session.query(Dish).filter(Dish.type == 'dish' and Bascket.user_id == current_user.id).all()
+
     if form.validate_on_submit():
         if form.profile.data:
             return redirect(url_for('profile'))
@@ -183,7 +193,24 @@ def bascket():
             return redirect(url_for('first_page'))
         elif form.reviews.data:
             return redirect(url_for('reviews'))
-    return render_template('bascket.html', form=form)
+        elif form.top_up_acc.data:
+            return redirect(url_for('top_up_acc'))
+    return render_template('bascket.html', form=form, object=object, dishes=dishes, breakfast=breakfast, lunch=lunch)
+
+
+@app.route('/top_up_acc', methods=['GET', 'POST'])
+def top_up_acc():
+    form = Top_up_acc()
+    if form.validate_on_submit():
+        if form.profile.data:
+            return redirect(url_for('profile'))
+        elif form.menu.data:
+            return redirect(url_for('first_page'))
+        elif form.reviews.data:
+            return redirect(url_for('reviews'))
+        elif form.basket.data:
+            return redirect(url_for('bascket'))
+    return render_template('top_up_acc.html', form=form)
 
 
 @app.route('/alergen_add', methods=['GET', 'POST'])

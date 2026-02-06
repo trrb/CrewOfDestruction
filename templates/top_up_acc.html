@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='new_reviews.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='top_up_acc.css') }}">
     <title>CafeteriaFlow — Вход</title>
 </head>
 <body>
@@ -11,17 +11,17 @@
     <div class="header">
         <form class="contnet_header" method="post">
         {{ form.hidden_tag() }}
-        {{ form.menu(class_="button_") }}
+        {{ form.reviews(class_="button_") }}
         {{ form.basket(class_="button_") }}
         <img src="{{ url_for('static', filename='images/logo.png') }}" class="my_logo_class" alt="Логотип">
-        {{ form.top_up_acc(class_="button_") }}
+        {{ form.menu(class_="button_") }}
         {{ form.profile(class_="button_") }}
         </form>
     </div>
     <div class="input_box">
-        <label>Введите отзыв</label>
-        {{ form.info(class_="input_inside") }}
-        {{ form.button_add_reviews()}}
+        <label>Введите сумму</label>
+        {{ form.top_up(class_="input_inside") }}
+        {{ form.top_up_acc(class_='button_') }}
     </div>
 </body>
 </html>

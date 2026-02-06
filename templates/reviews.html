@@ -18,6 +18,7 @@
         {{ form.profile(class_="button_") }}
         </form>
     </div>
+    <a href="{{ url_for('new_reviews') }}" class="button_href" >Добавить отзыв</a>
     {% for rew in reviews %}
         <h3 class="name_box_review">{{ rew.user.name }}</h3>
         <p class="reviews_coment">{{ rew.info }}</p>
