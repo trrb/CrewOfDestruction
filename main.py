@@ -65,7 +65,7 @@ def first_page():
     if request.method == 'POST':
         dish_id = request.form.get('dish_id')
         if dish_id:
-            new_bascket = Bascket(dish_id=int(dish_id),
+            new_bascket = Bascket(dish_id=int(dish_id), # 123
                                   user_id=current_user.id)
             session.add(new_bascket)
             session.commit()
