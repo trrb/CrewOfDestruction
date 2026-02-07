@@ -7,16 +7,17 @@
     <title>CafeteriaFlow — Вход</title>
 </head>
 <body>
+    <form method="post">
     {{ form.hidden_tag() }}
     <div class="header">
-        <form class="contnet_header" method="post">
+        <div class="contnet_header">
         {{ form.hidden_tag() }}
         {{ form.reviews(class_="button_") }}
         {{ form.menu(class_="button_") }}
         <img src="{{ url_for('static', filename='images/logo.png') }}" class="my_logo_class" alt="Логотип">
         {{ form.top_up_acc(class_="button_") }}
         {{ form.profile(class_="button_") }}
-        </form>
+        </div>
     </div>
     <h1>Завтрак</h1>
     <div class="photo_grid">
@@ -24,9 +25,7 @@
     {% for elem in object %}
     {% if dish.id == elem.dish_id %}
     <div class="meal_card">
-        <form method="post">
-            {{ form.hidden_tag() }}
-
+        <div>
             <!-- Скрытый input с ID блюда -->
             <input type="hidden" name="dish_id" value="{{ dish.id }}">
 
@@ -43,8 +42,8 @@
             <p class="price_meal">{{ dish.price }} руб.</p>
 
             <!-- Кнопка "добавить" -->
-            <button type="submit" class="button_in_meals">-</button>
-        </form>
+            <button type="submit" name="delete_dish_id" value="{{ dish.id }}" class="button_in_meals">-</button>
+        </div>
     </div>
     {% endif %}
     {% endfor %}
@@ -56,9 +55,7 @@
     {% for elem in object %}
     {% if dish.id == elem.dish_id %}
     <div class="meal_card">
-        <form method="post">
-            {{ form.hidden_tag() }}
-
+        <div>
             <input type="hidden" name="dish_id" value="{{ dish.id }}">
 
             <img src="{{ url_for('static', filename='images/lunch/' ~ dish.name ~ '.jpg') }}"
@@ -69,8 +66,8 @@
             <h3>{{ dish.name }}</h3>
             <p class="price_meal">{{ dish.price }} руб.</p>
 
-            <button type="submit" class="button_in_meals">-</button>
-        </form>
+            <button type="submit" name="delete_dish_id" value="{{ dish.id }}" class="button_in_meals">-</button>
+        </div>
     </div>
     {% endif %}
     {% endfor %}
@@ -80,9 +77,9 @@
         <h4>Итог:</h4> 
         <h4>{{ bascket_sum }} руб </h4>
     </div>
-    <form>
-        {{ form.hidden_tag() }}
+    <div>
         {{ form.accept_bascket(class_="accept_bascket") }}
+    </div>
     </form>
 </body>
 </html>

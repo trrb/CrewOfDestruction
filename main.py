@@ -15,6 +15,7 @@ from forms.alergen_add import Alergen_add
 from forms.new_reviews import New_reviews
 from forms.top_up_acc import Top_up_acc
 from sqlalchemy import desc 
+from flask import flash
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'crewdestruct'
@@ -210,21 +211,32 @@ def bascket():
         elif form.top_up_acc.data:
             return redirect(url_for('top_up_acc'))
     if request.method == 'POST':
-        dish_id = request.form.get('dish_id')
-        if dish_id:
-            # 1. ИЩЕМ существующую запись в базе
-            # Находим ПЕРВУЮ попавшуюся запись с таким блюдом у этого юзера
+        if form.accept_bascket.data:  # Если нажали "Оформить заказ"
+            user = session.query(User).filter(User.id == current_user.id).first()
+            if user.balance >= bascket_sum:
+                user.balance -= bascket_sum
+                for item in object:
+                    session.delete(item)#ПОтом добавить чтоб поварихам все улетало------------
+                
+                session.commit()
+                flash('Заказ успешно оплачен!')
+                return redirect(url_for('profile')) # Перекидываем в профиль
+            else:
+                #сидим на попе ровно и не чирикаем
+                print("Недостаточно средств!") 
+                flash('Недостаточно средств!', 'error')
+                # Остаемся на странице корзины
+        delete_dish_id = request.form.get('delete_dish_id')
+        if delete_dish_id:
             item_to_delete = session.query(Bascket).filter(
                 Bascket.user_id == current_user.id,
-                Bascket.dish_id == int(dish_id)
+                Bascket.dish_id == int(delete_dish_id)
             ).first()
-
-            # 2. Если нашли — удаляем
             if item_to_delete:
                 session.delete(item_to_delete)
                 session.commit()
             else:
-                print("Такого товара нет в корзине") # Для отладки
+                print("Такого товара нет в корзине")
         return redirect(url_for('bascket'))
     return render_template('bascket.html', form=form, object=object, dishes=dishes, breakfast=breakfast, lunch=lunch, bascket_sum=bascket_sum)
 
