@@ -200,6 +200,15 @@ def bascket():
     lunch = session.query(Dish).filter(Dish.type == 'lunch' and Bascket.user_id == current_user.id).all()
     dishes = session.query(Dish).filter(Dish.type == 'dish' and Bascket.user_id == current_user.id).all()
     bascket_sum = sum(elem.dish.price for elem in object)
+    if form.validate_on_submit():
+        if form.profile.data:
+            return redirect(url_for('profile'))
+        elif form.menu.data:
+            return redirect(url_for('first_page'))
+        elif form.reviews.data:
+            return redirect(url_for('reviews'))
+        elif form.top_up_acc.data:
+            return redirect(url_for('top_up_acc'))
     if request.method == 'POST':
         dish_id = request.form.get('dish_id')
         if dish_id:
@@ -216,16 +225,7 @@ def bascket():
                 session.commit()
             else:
                 print("Такого товара нет в корзине") # Для отладки
-        redirect(url_for('bascket'))
-    if form.validate_on_submit():
-        if form.profile.data:
-            return redirect(url_for('profile'))
-        elif form.menu.data:
-            return redirect(url_for('first_page'))
-        elif form.reviews.data:
-            return redirect(url_for('reviews'))
-        elif form.top_up_acc.data:
-            return redirect(url_for('top_up_acc'))
+        return redirect(url_for('bascket'))
     return render_template('bascket.html', form=form, object=object, dishes=dishes, breakfast=breakfast, lunch=lunch, bascket_sum=bascket_sum)
 
 
