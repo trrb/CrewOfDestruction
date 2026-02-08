@@ -325,6 +325,7 @@ def top_up_acc():
                     user.balance = current_balance + money_to_add
                     session.commit()
                     session.close()
+                    flash('Баланс успешно пополнен!', 'success')
             return redirect(url_for('top_up_acc'))
 
         if form.submit_subscription.data:
