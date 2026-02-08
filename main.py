@@ -71,19 +71,29 @@ def first_page():
                                   user_id=current_user.id)
             session.add(new_bascket)
             session.commit()
-    rendered = render_template('first_page.html', form=form, dishes=dishes,
-                               breakfast=breakfast, lunch=lunch)
+            added_dish = session.query(Dish).get(int(dish_id))
+            
+            anchor = 'top'
+            if added_dish:
+                if added_dish.type == 'breakfast':
+                    anchor = 'section-breakfast'
+                elif added_dish.type == 'lunch':
+                    anchor = 'section-lunch'
+        
+            return redirect(url_for('first_page', _anchor=anchor))
     session.close() # Проверка
     if form.validate_on_submit():
+        anchor = 'top'
         if form.profile.data:
-            return redirect(url_for('profile'))
+            return redirect(url_for('profile', _anchor=anchor))
         elif form.reviews.data:
-            return redirect(url_for('reviews'))
+            return redirect(url_for('reviews', _anchor=anchor))
         elif form.basket.data:
-            return redirect(url_for('bascket'))
+            return redirect(url_for('bascket', _anchor=anchor))
         elif form.top_up_acc.data:
-            return redirect(url_for('top_up_acc'))
-    return rendered
+            return redirect(url_for('top_up_acc', _anchor=anchor))
+    return render_template('first_page.html', form=form, dishes=dishes,
+                               breakfast=breakfast, lunch=lunch)
 
 
 @app.route('/logout')
