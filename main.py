@@ -3,7 +3,8 @@ from flask_login import LoginManager, login_user, logout_user, login_required, \
     current_user
 from dataalchemy import create_session, global_init
 from dataalchemy import User, Dish, LunchDish, \
-    BreakfastDish, RoleAdmin, RoleCook, Review, Bascket, Allergen, PurchaseRequest, History
+    BreakfastDish, RoleAdmin, RoleCook, Review, Bascket, Allergen, \
+    PurchaseRequest, History
 from default_menu import default_menu
 from forms.register import RegisterForm
 from forms.login import LoginForm
@@ -50,13 +51,13 @@ def login():
 
         if user and user.check_password(form.password.data):
             login_user(user)
-            role = user.role_id 
+            role = user.role_id
             session.close()
-            if role == 3: # Админ
+            if role == 3:  # Админ
                 return redirect(url_for('admin_dashboard'))
-            elif role == 2: # Повар
+            elif role == 2:  # Повар
                 return redirect(url_for('cook_dashboard'))
-            else: # Ученик
+            else:  # Ученик
                 return redirect(url_for('first_page'))
         session.close()
         return redirect(url_for('first_page'))
@@ -84,28 +85,28 @@ def first_page():
         if dish.allergen_name in forbidden_allergens:
             return False
         return True
-    
+
     breakfast_access = [d for d in breakfast if is_safe(d)]
     lunch_access = [d for d in lunch if is_safe(d)]
     dishes_access = [d for d in dishes if is_safe(d)]
     if request.method == 'POST':
         dish_id = request.form.get('dish_id')
         if dish_id:
-            new_bascket = Bascket(dish_id=int(dish_id), # 123
+            new_bascket = Bascket(dish_id=int(dish_id),  # 123
                                   user_id=current_user.id)
             session.add(new_bascket)
             session.commit()
             added_dish = session.query(Dish).get(int(dish_id))
-            
+
             anchor = 'top'
             if added_dish:
                 if added_dish.type == 'breakfast':
                     anchor = 'section-breakfast'
                 elif added_dish.type == 'lunch':
                     anchor = 'section-lunch'
-        
+
             return redirect(url_for('first_page', _anchor=anchor))
-    session.close() # Проверка
+    session.close()  # Проверка
     if form.validate_on_submit():
         anchor = 'top'
         if form.profile.data:
@@ -117,7 +118,7 @@ def first_page():
         elif form.top_up_acc.data:
             return redirect(url_for('top_up_acc', _anchor=anchor))
     return render_template('first_page.html', form=form, dishes=dishes_access,
-                               breakfast=breakfast_access, lunch=lunch_access)
+                           breakfast=breakfast_access, lunch=lunch_access)
 
 
 @app.route('/logout')
@@ -158,7 +159,9 @@ def profile():
     form = Profile()
     session = create_session()
     user = session.query(User).filter(User.id == current_user.id).first()
-    user_history = session.query(History).filter(History.id_user == current_user.id).order_by(History.created_date.desc()).all()
+    user_history = session.query(History).filter(
+        History.id_user == current_user.id).order_by(
+        History.created_date.desc()).all()
     if form.validate_on_submit():
         if form.profile.data:
             return redirect(url_for('profile'))
@@ -173,7 +176,8 @@ def profile():
         elif form.top_up_acc.data:
             return redirect(url_for('top_up_acc'))
     session.close()
-    return render_template('profile.html', form=form, user=user, history=user_history)
+    return render_template('profile.html', form=form, user=user,
+                           history=user_history)
 
 
 @app.route('/reviews', methods=['GET', 'POST'])
@@ -210,12 +214,12 @@ def new_reviews():
             return redirect(url_for('top_up_acc'))
         elif form.button_add_reviews.data:
             session = create_session()
-            
+
             new_review = Review(
-                info=form.info.data,  # То, что ввели в поле
-                id_user=current_user.id  # Кто написал
+                info=form.info.data,
+                id_user=current_user.id
             )
-            
+
             session.add(new_review)
             session.commit()
             session.close()
@@ -230,14 +234,18 @@ def new_reviews():
 def bascket():
     form = BascketForm()
     session = create_session()
-    object = session.query(Bascket).filter(Bascket.user_id == current_user.id).all()
-    breakfast = session.query(Dish).filter(Dish.type == 'breakfast' and Bascket.user_id == current_user.id).all()
-    lunch = session.query(Dish).filter(Dish.type == 'lunch' and Bascket.user_id == current_user.id).all()
-    dishes = session.query(Dish).filter(Dish.type == 'dish' and Bascket.user_id == current_user.id).all()
-    
+    object = session.query(Bascket).filter(
+        Bascket.user_id == current_user.id).all()
+    breakfast = session.query(Dish).filter(
+        Dish.type == 'breakfast' and Bascket.user_id == current_user.id).all()
+    lunch = session.query(Dish).filter(
+        Dish.type == 'lunch' and Bascket.user_id == current_user.id).all()
+    dishes = session.query(Dish).filter(
+        Dish.type == 'dish' and Bascket.user_id == current_user.id).all()
+
     bascket_sum = sum(elem.dish.price for elem in object)
     is_free = False
-    
+
     if current_user.has_active_subscription():
         is_free = True
         final_price_to_pay = 0
@@ -245,7 +253,7 @@ def bascket():
     else:
         final_price_to_pay = bascket_sum
         revenue_to_record = bascket_sum
-        
+
     if form.validate_on_submit():
         if form.profile.data:
             return redirect(url_for('profile'))
@@ -255,32 +263,33 @@ def bascket():
             return redirect(url_for('reviews'))
         elif form.top_up_acc.data:
             return redirect(url_for('top_up_acc'))
-            
+
     if request.method == 'POST':
         if form.accept_bascket.data:
-            user = session.query(User).filter(User.id == current_user.id).first()
+            user = session.query(User).filter(
+                User.id == current_user.id).first()
             if user.balance >= final_price_to_pay:
                 user.balance -= final_price_to_pay
                 dish_names = [item.dish.name for item in object]
                 dishes_string = ", ".join(dish_names)
-                
+
                 new_order = History(
                     id_user=current_user.id,
                     name=dishes_string,
-                    summa=revenue_to_record, 
+                    summa=revenue_to_record,
                     info="По абонементу" if is_free else "Оплачено"
                 )
                 session.add(new_order)
-                
+
                 for item in object:
                     session.delete(item)
-                
+
                 session.commit()
                 flash('Заказ успешно оплачен!')
                 return redirect(url_for('profile'))
             else:
                 flash('Недостаточно средств!', 'error')
-                
+
         delete_dish_id = request.form.get('delete_dish_id')
         if delete_dish_id:
             item_to_delete = session.query(Bascket).filter(
@@ -290,10 +299,12 @@ def bascket():
             if item_to_delete:
                 session.delete(item_to_delete)
                 session.commit()
-                
+
         return redirect(url_for('bascket'))
-        
-    return render_template('bascket.html', form=form, object=object, dishes=dishes, breakfast=breakfast, lunch=lunch, bascket_sum=bascket_sum)
+
+    return render_template('bascket.html', form=form, object=object,
+                           dishes=dishes, breakfast=breakfast, lunch=lunch,
+                           bascket_sum=bascket_sum)
 
 
 @app.route('/top_up_acc', methods=['GET', 'POST'])
@@ -308,11 +319,11 @@ def top_up_acc():
             return redirect(url_for('reviews'))
         elif form.basket.data:
             return redirect(url_for('bascket'))
-            
+
     if form.validate_on_submit():
         session = create_session()
         user = session.query(User).filter(User.id == current_user.id).first()
-        
+
         if form.top_up_acc_balance.data:
             if user:
                 money_to_add = int(form.top_up.data)
@@ -321,19 +332,19 @@ def top_up_acc():
                 session.commit()
                 session.close()
             return redirect(url_for('top_up_acc'))
-            
+
         if form.submit_subscription.data:
             SUBSCRIPTION_PRICE = 3000
-            
+
             if user.balance >= SUBSCRIPTION_PRICE:
                 user.balance -= SUBSCRIPTION_PRICE
-                
+
                 now = datetime.datetime.now()
                 if user.subscription_until and user.subscription_until > now:
                     user.subscription_until += timedelta(days=30)
                 else:
                     user.subscription_until = now + timedelta(days=30)
-                
+
                 new_order = History(
                     id_user=current_user.id,
                     name="Покупка абонемента (30 дней)",
@@ -346,9 +357,8 @@ def top_up_acc():
             else:
                 flash('Недостаточно средств для покупки абонемента!', 'error')
         session.close()
-    
-    return render_template('top_up_acc.html', form=form)
 
+    return render_template('top_up_acc.html', form=form)
 
 
 @app.route('/alergen_add', methods=['GET', 'POST'])
@@ -377,51 +387,58 @@ def alergen_add():
         session.commit()
         flash('Список аллергенов обновлен!', 'success')
         return redirect(url_for('alergen_add'))
-    return render_template('alergen_add.html', form=form, 
+    return render_template('alergen_add.html', form=form,
                            all_allergens=all_allergens, user=user)
+
 
 @app.route('/cook_dashboard', methods=['GET', 'POST'])
 @login_required
 def cook_dashboard():
     if current_user.role_id != 2:
         return redirect(url_for('first_page'))
-    form = CookForm() 
+    form = CookForm()
     session = create_session()
     orders = session.query(History).order_by(History.created_date.desc()).all()
     all_dishes = session.query(Dish).all()
-    my_requests = session.query(PurchaseRequest).filter(PurchaseRequest.cook_id == current_user.id).order_by(PurchaseRequest.created_date.desc()).all()
+    my_requests = session.query(PurchaseRequest).filter(
+        PurchaseRequest.cook_id == current_user.id).order_by(
+        PurchaseRequest.created_date.desc()).all()
 
     session.close()
-    return render_template('cook_dashboard.html', 
-                           form=form, 
-                           orders=orders, 
+    return render_template('cook_dashboard.html',
+                           form=form,
+                           orders=orders,
                            all_dishes=all_dishes,
                            my_requests=my_requests)
+
+
 @app.route('/cook_issue/<int:order_id>', methods=['POST'])
 @login_required
 def cook_issue(order_id):
     if current_user.role_id != 2:
         return redirect(url_for('first_page'))
-        
+
     session = create_session()
     order = session.query(History).get(order_id)
     if order:
-        order.info = "Выдано" # Меняем статус в истории
+        order.info = "Выдано"
         session.commit()
-    
+
     session.close()
     return redirect(url_for('cook_dashboard'))
+
+
 @app.route('/cook_request_food', methods=['POST'])
 @login_required
 def cook_request_food():
     if current_user.role_id != 2:
         return redirect(url_for('first_page'))
-        
+
     session = create_session()
-    
+
     dish_name = request.form.get('dish_name')
     quantity = request.form.get('quantity')
-    
+
     if dish_name and quantity:
         session.query(PurchaseRequest).filter(
             PurchaseRequest.product_name == dish_name
@@ -435,7 +452,7 @@ def cook_request_food():
         session.add(req)
         session.commit()
         flash(f'Заявка на {dish_name} ({quantity} шт.) обновлена!', 'success')
-        
+
     session.close()
     return redirect(url_for('cook_dashboard'))
 
@@ -446,24 +463,27 @@ def admin_dashboard():
     if current_user.role_id != 3:
         return redirect(url_for('first_page'))
     session = create_session()
-    pending_requests = session.query(PurchaseRequest).filter(PurchaseRequest.status == 'pending').all()
+    pending_requests = session.query(PurchaseRequest).filter(
+        PurchaseRequest.status == 'pending').all()
     total_revenue = session.query(func.sum(History.summa)).scalar() or 0
     total_orders = session.query(History).count()
     total_users = session.query(User).count()
 
     daily_stats = session.query(
-        func.date(History.created_date), 
+        func.date(History.created_date),
         func.count(History.id),
         func.sum(History.summa)
-        ).group_by(func.date(History.created_date)).order_by(desc(func.date(History.created_date))).all()
+    ).group_by(func.date(History.created_date)).order_by(
+        desc(func.date(History.created_date))).all()
     session.close()
-    return render_template('admin_dashboard.html', 
+    return render_template('admin_dashboard.html',
                            pending_requests=pending_requests,
                            total_revenue=total_revenue,
                            total_orders=total_orders,
                            total_users=total_users,
-                            daily_stats=daily_stats
-                            )
+                           daily_stats=daily_stats
+                           )
+
 
 @app.route('/admin_approve_request/<int:req_id>', methods=['POST'])
 @login_required
@@ -472,10 +492,11 @@ def admin_approve_request(req_id):
     session = create_session()
     req = session.query(PurchaseRequest).get(req_id)
     if req:
-        req.status = 'approved' # Одобрено
+        req.status = 'approved'
         session.commit()
     session.close()
     return redirect(url_for('admin_dashboard'))
+
 
 @app.route('/admin_reject_request/<int:req_id>', methods=['POST'])
 @login_required
@@ -484,25 +505,27 @@ def admin_reject_request(req_id):
     session = create_session()
     req = session.query(PurchaseRequest).get(req_id)
     if req:
-        req.status = 'rejected' # Отклонено
+        req.status = 'rejected'
         session.commit()
     session.close()
     return redirect(url_for('admin_dashboard'))
 
+
 if __name__ == "__main__":
     session = create_session()
     try:
-        allergen_names = ['lactose', 'eggs'] 
+        allergen_names = ['lactose', 'eggs']
         for name in allergen_names:
-            if not session.query(Allergen).filter(Allergen.name == name).first():
-                session.add(Allergen(name=name)) 
+            if not session.query(Allergen).filter(
+                    Allergen.name == name).first():
+                session.add(Allergen(name=name))
         session.commit()
         a = session.query(Dish).all()
         names = [x.name for x in a]
         for dish in default_menu:
             if dish.name not in names:
-                session.add(dish)    
-        admin_email = "sosok@school.ru"
+                session.add(dish)
+        admin_email = "admin@school.ru"
         if not session.query(User).filter(User.email == admin_email).first():
             admin = RoleAdmin(
                 name="Админушка батюшка",
@@ -513,18 +536,18 @@ if __name__ == "__main__":
             session.add(admin)
             session.commit()
             print("Админ создан")
-        
-        # Проверка
+
+        #  Аккаунт повара на проверку работоспособности
         cook_email = "cook@school.ru"
         if not session.query(User).filter(User.email == cook_email).first():
             cook = RoleCook(
-                name="Меган фокс",
+                name="Старый Повар Иванович",
                 email=cook_email,
                 role_id=2
             )
             cook.set_password("cook123")
             session.add(cook)
-            print("Повар создан")  
+            print("Повар создан")
         session.commit()
     except Exception as e:
         print(f'Аларм!!! сайта не будет потому что {e}')
