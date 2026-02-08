@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, abort
 from flask_login import LoginManager, login_user, logout_user, login_required, \
     current_user
 from dataalchemy import create_session, global_init
-from dataalchemy import User, Dish, Food, DishFood, LunchDish, \
+from dataalchemy import User, Dish, LunchDish, \
     BreakfastDish, RoleAdmin, RoleCook, Review, Bascket, Allergen, PurchaseRequest, History
 from default_menu import default_menu
 from forms.register import RegisterForm
@@ -234,13 +234,18 @@ def bascket():
     breakfast = session.query(Dish).filter(Dish.type == 'breakfast' and Bascket.user_id == current_user.id).all()
     lunch = session.query(Dish).filter(Dish.type == 'lunch' and Bascket.user_id == current_user.id).all()
     dishes = session.query(Dish).filter(Dish.type == 'dish' and Bascket.user_id == current_user.id).all()
+    
     bascket_sum = sum(elem.dish.price for elem in object)
     is_free = False
+    
     if current_user.has_active_subscription():
         is_free = True
-        final_price_to_pay = 0 # Платить ничего не надо
+        final_price_to_pay = 0
+        revenue_to_record = 0
     else:
         final_price_to_pay = bascket_sum
+        revenue_to_record = bascket_sum
+        
     if form.validate_on_submit():
         if form.profile.data:
             return redirect(url_for('profile'))
@@ -250,31 +255,32 @@ def bascket():
             return redirect(url_for('reviews'))
         elif form.top_up_acc.data:
             return redirect(url_for('top_up_acc'))
+            
     if request.method == 'POST':
-        if form.accept_bascket.data:  # Если нажали "Оформить заказ"
+        if form.accept_bascket.data:
             user = session.query(User).filter(User.id == current_user.id).first()
             if user.balance >= final_price_to_pay:
                 user.balance -= final_price_to_pay
                 dish_names = [item.dish.name for item in object]
                 dishes_string = ", ".join(dish_names)
+                
                 new_order = History(
                     id_user=current_user.id,
-                    name=dishes_string,      # Список блюд
-                    summa=bascket_sum,       # Общая сумма
-                    info="Оплачено"          # Статус (т.к. поле обязательное)
+                    name=dishes_string,
+                    summa=revenue_to_record, 
+                    info="По абонементу" if is_free else "Оплачено"
                 )
                 session.add(new_order)
+                
                 for item in object:
-                    session.delete(item)#ПОтом добавить чтоб поварихам все улетало------------
+                    session.delete(item)
                 
                 session.commit()
                 flash('Заказ успешно оплачен!')
-                return redirect(url_for('profile')) # Перекидываем в профиль
+                return redirect(url_for('profile'))
             else:
-                #сидим на попе ровно и не чирикаем
-                print("Недостаточно средств!") 
                 flash('Недостаточно средств!', 'error')
-                # Остаемся на странице корзины
+                
         delete_dish_id = request.form.get('delete_dish_id')
         if delete_dish_id:
             item_to_delete = session.query(Bascket).filter(
@@ -284,9 +290,9 @@ def bascket():
             if item_to_delete:
                 session.delete(item_to_delete)
                 session.commit()
-            else:
-                print("Такого товара нет в корзине")
+                
         return redirect(url_for('bascket'))
+        
     return render_template('bascket.html', form=form, object=object, dishes=dishes, breakfast=breakfast, lunch=lunch, bascket_sum=bascket_sum)
 
 
@@ -302,40 +308,47 @@ def top_up_acc():
             return redirect(url_for('reviews'))
         elif form.basket.data:
             return redirect(url_for('bascket'))
+            
     if form.validate_on_submit():
         session = create_session()
         user = session.query(User).filter(User.id == current_user.id).first()
+        
         if form.top_up_acc_balance.data:
-            print('Кнопка нажата!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
             if user:
                 money_to_add = int(form.top_up.data)
                 current_balance = user.balance if user.balance else 0
                 user.balance = current_balance + money_to_add
                 session.commit()
-                print(f'Баланс пополнен на {money_to_add}! Теперь: {user.balance}')
-                print('ВСЕ РАБОТАЕТ!!!!!!!!!!!!!!!!!!!!')
                 session.close()
             return redirect(url_for('top_up_acc'))
+            
         if form.submit_subscription.data:
             SUBSCRIPTION_PRICE = 3000
             
             if user.balance >= SUBSCRIPTION_PRICE:
                 user.balance -= SUBSCRIPTION_PRICE
                 
-                # Если уже был абонемент, продлеваем, если нет ставим с сегодня
                 now = datetime.datetime.now()
                 if user.subscription_until and user.subscription_until > now:
                     user.subscription_until += timedelta(days=30)
                 else:
                     user.subscription_until = now + timedelta(days=30)
                 
+                new_order = History(
+                    id_user=current_user.id,
+                    name="Покупка абонемента (30 дней)",
+                    summa=SUBSCRIPTION_PRICE,
+                    info="Оплачено"
+                )
+                session.add(new_order)
                 session.commit()
                 flash('Абонемент успешно куплен!', 'success')
             else:
                 flash('Недостаточно средств для покупки абонемента!', 'error')
-    else:
-        print("НЕ работает!!!!!!!!!!!!!!!")
+        session.close()
+    
     return render_template('top_up_acc.html', form=form)
+
 
 
 @app.route('/alergen_add', methods=['GET', 'POST'])
@@ -410,15 +423,12 @@ def cook_request_food():
     quantity = request.form.get('quantity')
     
     if dish_name and quantity:
-        # 1. СНАЧАЛА УДАЛЯЕМ старые заявки на этот же продукт
         session.query(PurchaseRequest).filter(
             PurchaseRequest.product_name == dish_name
         ).delete()
-        
-        # 2. Потом создаем новую
         req = PurchaseRequest(
             product_name=dish_name,
-            quantity=quantity, # Не забудь, у тебя поле count!
+            quantity=quantity,
             cook_id=current_user.id,
             status='pending'
         )
@@ -433,33 +443,28 @@ def cook_request_food():
 @app.route('/admin_dashboard', methods=['GET', 'POST'])
 @login_required
 def admin_dashboard():
-    # Проверка: только админ (id=3)
     if current_user.role_id != 3:
         return redirect(url_for('first_page'))
-
     session = create_session()
-
-    # 1. Загружаем заявки на закупку (только pending)
     pending_requests = session.query(PurchaseRequest).filter(PurchaseRequest.status == 'pending').all()
-    
-    # 2. Статистика
-    # Выручка (сумма всех оплат в History)
     total_revenue = session.query(func.sum(History.summa)).scalar() or 0
-    
-    # Количество заказов сегодня (можно усложнить, но пока общее)
     total_orders = session.query(History).count()
-    
-    # Количество пользователей
     total_users = session.query(User).count()
 
+    daily_stats = session.query(
+        func.date(History.created_date), 
+        func.count(History.id),
+        func.sum(History.summa)
+        ).group_by(func.date(History.created_date)).order_by(desc(func.date(History.created_date))).all()
     session.close()
     return render_template('admin_dashboard.html', 
                            pending_requests=pending_requests,
                            total_revenue=total_revenue,
                            total_orders=total_orders,
-                           total_users=total_users)
+                           total_users=total_users,
+                            daily_stats=daily_stats
+                            )
 
-# --- РОУТЫ ДЛЯ КНОПОК ОДОБРИТЬ/ОТКЛОНИТЬ ---
 @app.route('/admin_approve_request/<int:req_id>', methods=['POST'])
 @login_required
 def admin_approve_request(req_id):

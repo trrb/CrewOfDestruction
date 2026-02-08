@@ -245,3 +245,30 @@ body {
     border-radius: 8px;
     color: #444;
 }
+.stats_table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.stats_table th, .stats_table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.stats_table th {
+    background-color: #4a4e69; /* Твой синий цвет */
+    color: white;
+}
+
+.stats_table tr:hover {
+    background-color: #f5f5f5;
+}
+.requests_name
+{
+    padding-left: 0px;
+}
