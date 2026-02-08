@@ -3,7 +3,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required, \
     current_user
 from dataalchemy import create_session, global_init
 from dataalchemy import User, Dish, Food, DishFood, LunchDish, \
-    BreakfastDish, RoleAdmin, RoleCook, Review, Bascket, Allergen
+    BreakfastDish, RoleAdmin, RoleCook, Review, Bascket, Allergen, PurchaseRequest, History
 from default_menu import default_menu
 from forms.register import RegisterForm
 from forms.login import LoginForm
@@ -19,7 +19,7 @@ from flask import flash
 from dataalchemy.models.history import History
 import datetime
 from datetime import timedelta
-from forms.cook_dashboard import Cook
+from forms.cook_dashboard import CookForm
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'crewdestruct'
@@ -370,31 +370,42 @@ def alergen_add():
 @app.route('/cook_dashboard', methods=['GET', 'POST'])
 @login_required
 def cook_dashboard():
-    form = Cook()
+    if current_user.role_id != 2:
+        return redirect(url_for('first_page'))
+    form = CookForm() 
     session = create_session()
-    history_dish = session.query(History).all()
-    user = session.query(User).get(current_user.id)
-    if form.validate_on_submit():
-        if form.profile.data:
-            return redirect(url_for('profile'))
-        elif form.menu.data:
-            return redirect(url_for('first_page'))
-        elif form.reviews.data:
-            return redirect(url_for('reviews'))
-        elif form.basket.data:
-            return redirect(url_for('bascket'))
-    if request.method == 'POST' and 'save_allergens' in request.form:
-        user.allergens = []
-        selected_ids = request.form.getlist('allergen_ids')
-        for a_id in selected_ids:
-            allergen = session.query(Allergen).get(int(a_id))
-            if allergen:
-                user.allergens.append(allergen)
+    orders = session.query(History).order_by(History.created_date.desc()).all()
+    all_dishes = session.query(Dish).all()
+    my_requests = session.query(PurchaseRequest).filter(PurchaseRequest.cook_id == current_user.id).order_by(PurchaseRequest.created_date.desc()).all()
+
+    session.close()
+    return render_template('cook_dashboard.html', 
+                           form=form, 
+                           orders=orders, 
+                           all_dishes=all_dishes,
+                           my_requests=my_requests)
+@app.route('/cook_request_food', methods=['POST'])
+@login_required
+def cook_request_food():
+    if current_user.role_id != 2:
+        return redirect(url_for('first_page'))
+    session = create_session()
+    dish_name = request.form.get('dish_name')
+    quantity = request.form.get('quantity')
+    if dish_name and quantity:
+        req = PurchaseRequest(
+            product_name=dish_name,
+            quantity=quantity,
+            cook_id=current_user.id,
+            status='pending'
+        )
+        session.add(req)
         session.commit()
-        flash('Список аллергенов обновлен!', 'success')
-        return redirect(url_for('alergen_add'))
-    return render_template('alergen_add.html', form=form, 
-                           all_allergens=all_allergens, user=user)
+        flash(f'Заявка на {dish_name} ({quantity} шт.) отправлена!', 'success')
+    session.close()
+    return redirect(url_for('cook_dashboard'))
+
+
 if __name__ == "__main__":
     session = create_session()
     try:

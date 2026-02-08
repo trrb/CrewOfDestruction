@@ -42,3 +42,109 @@ body {
     width: 150px;
     height: 150px;
 }
+.main_container {
+    display: flex;
+    gap: 40px;
+    padding: 40px;
+    height: calc(100vh - 150px); /* На весь экран минус шапка */
+}
+
+.column {
+    flex: 1;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column; /* Чтобы скролл работал правильно */
+}
+
+
+.scrollable_list {
+    flex: 1; /* Занимает все оставшееся место */
+    overflow-y: auto; /* Включает скролл */
+    padding-right: 10px;
+}
+
+.order-card {
+    background: #f8f9fa;
+    border: 1px solid #eee;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-card.done {
+    opacity: 0.6; 
+    background: #e9ecef;
+}
+
+.btn-issue {
+    background: #2a9d8f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.btn-issue:hover {
+    background: #21867a;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 10px;
+    background: #4a4e69;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.logout-btn {
+    background: #e63946;
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.count_order_card
+{
+    width: 70px; 
+    padding: 5px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px;
+}
+.btn_issue_order
+{
+    background: #4a4e69;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+.btn_issue_order:hover {
+    background: #21867a;
+}
+.my_requests_box
+{
+    margin-top: 20px; 
+    border-top: 1px solid #eee; 
+    padding-top: 10px;
+}
