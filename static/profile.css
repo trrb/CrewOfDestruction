@@ -94,9 +94,9 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; /* Центрируем контент по вертикали */
+    justify-content: center;
     position: absolute;
-    top: 220px;        /* Опускаем ниже, чтобы дать место имени */
+    top: 220px;     
     left: 150px;
     font-size: 30px;
     gap: 20px;
@@ -120,7 +120,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 20px; /* Уменьшил шрифт истории, а то 30px много */
+    font-size: 20px; 
     position: absolute;
     top: 205px;
     right: 0px;
@@ -140,7 +140,6 @@ body {
     font-size: 30px;
 }
 .button_href {
-    /* Твои текущие стили */
     margin: 420px 260px;
     height: 40px;
     width: 200px;
@@ -148,26 +147,63 @@ body {
     align-self: center;
     flex-shrink: 0;
 
-    /* 1. Делаем элемент блочным, чтобы сработали height и width */
-    display: flex;             /* Или inline-flex, чтобы работало центрирование внутри */
-    align-items: center;       /* Центрируем текст по вертикали */
-    justify-content: center;   /* Центрируем текст по горизонтали */
+    display: flex;           
+    align-items: center;       
+    justify-content: center;   
 
-    /* 2. Убираем "ссылочный" вид */
-    text-decoration: none;     /* Убирает подчеркивание */
-    color: black;              /* Цвет текста (поставь свой, если нужен другой) */
+    text-decoration: none;     
+    color: black;            
 
-    /* 3. Рисуем саму кнопку (похоже на стандартный input) */
-    background-color: #f0f0f0; /* Светло-серый фон (как у стандартной кнопки) */
-    border: 1px solid #767676; /* Стандартная рамка (или убери: border: none;) */
-    border-radius: 2px;        /* Скругление углов (если нужно) */
-    box-sizing: border-box;    /* Чтобы padding не увеличивал размер кнопки */
-    font-size: 13.3333px;      /* Стандартный размер шрифта кнопок браузера */
-    font-family: Arial, sans-serif; /* Шрифт как у кнопок */
+    background-color: #f0f0f0; 
+    border: 1px solid #767676; 
+    border-radius: 2px;       
+    box-sizing: border-box;    
+    font-size: 13.3333px;      
+    font-family: Arial, sans-serif; 
 }
 
-/* Эффект при наведении (опционально) */
 .button_href:hover {
     background-color: #e0e0e0;
     cursor: pointer;
+}
+
+.flash-overlay {
+    position: fixed;
+    top: 180px;
+    left: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    pointer-events: none;
+}
+
+.flash-card {
+    min-width: 300px;
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    backdrop-filter: blur(4px);
+    pointer-events: auto;
+    animation: slideIn 0.5s ease-out;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.flash-error {
+    background-color: rgba(230, 57, 70, 0.75);
+    color: white;
+}
+
+.flash-success {
+    background-color: rgba(76, 175, 80, 0.75);
+    color: white;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(-50px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
 }

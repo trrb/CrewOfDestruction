@@ -53,18 +53,15 @@ def login():
             login_user(user)
             role = user.role_id
             session.close()
-            if role == 3:  # Админ
+            if role == 3:#АДМИН
                 return redirect(url_for('admin_dashboard'))
-            elif role == 2:  # Повар
+            elif role == 2:#ПОВАР
                 return redirect(url_for('cook_dashboard'))
-            else:  # Ученик
+            else:#УЧЕНИК
                 return redirect(url_for('first_page'))
         session.close()
-        return redirect(url_for('first_page'))
-
-        session.close()
-        return "Неверный логин или пароль"
-
+        flash('Неверный логин или пароль', 'error')
+        return redirect(url_for('login'))
     return render_template('log_in.html', form=form)
 
 
@@ -130,25 +127,21 @@ def logout():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
-
     if form.validate_on_submit():
         session = create_session()
-
         if session.query(User).filter(User.email == form.email.data).first():
             session.close()
-            return "Пользователь уже существует"
-
+            flash('Пользователь с такой почтой уже существует', 'error')
+            return redirect(url_for('register'))
         user = User(
             name=form.name.data,
             email=form.email.data
         )
-
         user.set_password(form.password.data)
-
         session.add(user)
         session.commit()
         session.close()
-
+        flash('Регистрация прошла успешно! Теперь войдите.', 'success')
         return redirect(url_for('login'))
 
     return render_template('registration.html', form=form)
@@ -354,8 +347,6 @@ def top_up_acc():
                 session.add(new_order)
                 session.commit()
                 flash('Абонемент успешно куплен!', 'success')
-            else:
-                flash('Недостаточно средств для покупки абонемента!', 'error')
         session.close()
 
     return render_template('top_up_acc.html', form=form)
