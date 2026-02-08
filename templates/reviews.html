@@ -21,7 +21,8 @@
     <a href="{{ url_for('new_reviews') }}" class="button_href" >Добавить отзыв</a>
     <div class="review">
         {% for rew in reviews %}
-            <h3 class="name_box_review">{{ rew.user.name }} <br> {{ rew.created_date.strftime('%Y.%m.%d') }}</h3>
+            <h3 class="name_box_review">
+                <span class="name_in_box">{{ rew.user.name}}</span> {{ rew.created_date.strftime('%Y.%m.%d') }}</h3>
             <p class="reviews_coment">{{ rew.info }}</p>
         {% endfor %}
         </div>

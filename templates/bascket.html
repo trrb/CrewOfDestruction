@@ -26,22 +26,13 @@
     {% if dish.id == elem.dish_id %}
     <div class="meal_card">
         <div>
-            <!-- Скрытый input с ID блюда -->
             <input type="hidden" name="dish_id" value="{{ dish.id }}">
-
-            <!-- Картинка -->
             <img src="{{ url_for('static', filename='images/breakfast/' ~ dish.name ~ '.jpg') }}"
                  alt="{{ dish.name }}"
                  class="meal_image"
                  onerror="this.src='{{ url_for('static', filename='images/no_image.jpg') }}'">
-
-            <!-- Название блюда -->
             <h3>{{ dish.name }}</h3>
-
-            <!-- Цена -->
             <p class="price_meal">{{ dish.price }} руб.</p>
-
-            <!-- Кнопка "добавить" -->
             <button type="submit" name="delete_dish_id" value="{{ dish.id }}" class="button_in_meals">-</button>
         </div>
     </div>

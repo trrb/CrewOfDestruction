@@ -10,13 +10,18 @@
     {{ form.hidden_tag() }}
     <div class="header">
         <form class="contnet_header" method="post">
-        {{ form.hidden_tag() }}
-        {{ form.reviews(class_="button_") }}
-        {{ form.basket(class_="button_") }}
-        <img src="{{ url_for('static', filename='images/logo.png') }}" class="my_logo_class" alt="Логотип">
-        {{ form.menu(class_="button_") }}
-        {{ form.profile(class_="button_") }}
+            {{ form.hidden_tag() }}
+            {{ form.reviews(class_="button_") }}
+            {{ form.basket(class_="button_") }}
+            <img src="{{ url_for('static', filename='images/logo.png') }}" class="my_logo_class" alt="Логотип">
+            {{ form.menu(class_="button_") }}
+            {{ form.profile(class_="button_") }}
         </form>
+    </div>
+    <div class="user_controls">
+        <h3 class="name_user">{{user.name}}</h3>
+        <a href="{{ url_for('logout') }}" class="logout-btn">Выйти</a>
+    </div>
     <div class="balance_profile">
         <a>
             Мой баланс:
@@ -24,11 +29,12 @@
         <h2>
             {{ user.balance }} руб
         </h2>
-        <form class="contnet_header" method="post">
+        <form class="button_top" method="post">
             {{ form.hidden_tag() }}
             {{ form.top_up_acc(class_="button_balance") }}
         </form>
     </div>
+    <a href="{{ url_for('alergen_add') }}" class="button_href">Настроить аллергены</a>
     <div class="check_profile">
         {% if history %}
         <div class="last-order-card">
@@ -39,13 +45,7 @@
             <p><strong>Дата:</strong> {{ history[0].created_date.strftime('%d.%m.%Y %H:%M') }}</p>
         </div>
         {% else %}
-            <p>Лох голодный</p>
+            <p>У вас не было заказов</p>
         {% endif %}
-    </div>
-        <form class="contnet_header" method="post">
-            {{ form.hidden_tag() }}
-            {{ form.alergen(class_="alergen") }}
-        </form>
-    </div>
 </body>
 </html>

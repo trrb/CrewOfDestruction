@@ -1,4 +1,4 @@
-from dataalchemy import Dish, DishFood, LunchDish, BreakfastDish
+from dataalchemy import Dish, LunchDish, BreakfastDish
 
 default_menu = [
     BreakfastDish(name='Бутерброд с ветчиной', price=50.0),

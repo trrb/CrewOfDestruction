@@ -52,17 +52,29 @@ body
 {
     border-radius: 20px;/* Скругление */
     background-color: #c9ada7;/* Цвет фона */
-    padding: 20px;/* Отступы внутри */
+    padding: 10px 5px;/* Отступы внутри */
     border: 1px solid #9a8c98;   /* Тонкая рамка */
-    width: 100px;/* Ширина блока */
-    height: 60px;/*Высота блока */
-    gap: 40px; /*расстояние между элементами внутри бокса */
+    width: 115px;/* Ширина блока */
+    height: 82px;/*Высота блока */
+    gap: 0; /*расстояние между элементами внутри бокса */
     flex-direction: column; /* как буду располагаться элементы */
     align-items: center;
-    font-size: 20px;
+    font-size: 18px;
     display: flex;/*флекс +вайб и все этом духе*/
     position: relative;
     margin-left: 20px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+.name_in_box
+{
+    font-size: 18px;
+    white-space: nowrap;      /* Запретить перенос на новую строку */
+    overflow: hidden;         /* Скрыть то, что вылезает */
+    text-overflow: ellipsis;
+    display: block;         
+    width: 100%;            /* Занимаем всю ширину родителя */
+    text-align: center;    
 }
 .reviews_coment
 {
@@ -71,7 +83,7 @@ body
     padding: 20px;/* Отступы внутри */
     border: 1px solid #9a8c98;   /* Тонкая рамка */
     width: 1200px;/* Ширина блока */
-    height: 60px;/*Высота блока */
+    height: 62px;/*Высота блока */
     gap: 40px; /*расстояние между элементами внутри бокса */
     flex-direction: column; /* как буду располагаться элементы */
     font-size: 20px;

@@ -27,19 +27,16 @@
         </div>
         <div class="subscription_block">
         <h2>Абонемент</h2>
-        
         {% if current_user.has_active_subscription() %}
             <div class="status-active" style="color: green;">
-                <h3>Все клево</h3>
+                <h3>Активен</h3>
                 <p>Действует до: {{ current_user.subscription_until.strftime('%d.%m.%Y') }}</p>
             </div>
         {% else %}
             <div class="status-inactive">
-                <h3>Чай дохлебывай и ...</h3>
+                <h3>Не активен</h3>
                 <p>Купите абонемент, чтобы питаться бесплатно!</p>
                 <p>Цена: <strong>3000 руб.</strong></p>
-                
-                <!-- Кнопка покупки -->
                 {{ form.submit_subscription(class_="button_buy_sub") }}
             </div>
         {% endif %}

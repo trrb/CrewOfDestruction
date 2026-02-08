@@ -4,31 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='cook_dashboard.css') }}">
-    <title>CafeteriaFlow — Вход</title>
+    <title>CafeteriaFlow — Cook</title>
 </head>
 <body>
-    <form method="post">
     <div class="header">
-        <div class="contnet_header" method="post">
-            {{ form.hidden_tag() }}
-            <img src="{{ url_for('static', filename='images/logo.png') }}"
-                class="my_logo_class"
-                alt="Логотип">
+        <div class="contnet_header">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" class="my_logo_class" alt="Логотип">
+            
+            <div class="user-info" style="color: white; display: flex; align-items: center; gap: 20px;">
+                <h2> {{ current_user.name }}</h2>
+                <a href="{{ url_for('logout') }}" class="logout-btn">Выйти</a>
+            </div>
         </div>
     </div>
-    <div class="orders_table">
-        <h1>Учёт</h1>
-        {% for elem in history_dish %}
-            <p> {{ elem. }} {{status}}</p>
-            {{ form.give_dish(class_="button_give")}}
+    <div class="main_container">
+        <div class="column">
+            <h1> Выдача заказов</h1>
+            <div class="scrollable_list">
+                {% for order in orders %}
+                    <div class="order-card {% if 'Выдано' in order.info %}done{% endif %}">
+                        <div>
+                            <h3>Заказ #{{ order.id }} <small>({{ order.created_date.strftime('%H:%M') }})</small></h3>
+                            <p><strong>Ученик:</strong> {{ order.user.name }}</p>
+                            <p><strong>Состав:</strong> {{ order.name }}</p>
+                            <p>Статус: {{ order.info }}</p>
+                        </div>
+                        {% if 'Выдано' not in order.info %}
+                            <form action="{{ url_for('cook_issue', order_id=order.id) }}" method="post">
+                                <button type="submit" class="btn-issue"> Выдать</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+<div class="column">
+    <h1> Заявки на закупку</h1>
+    <div class="scrollable_list">
+        {% for dish in all_dishes %}
+            <div class="order-card"> 
+                <div>
+                    <h3>{{ dish.name }}</h3>
+                    <p>Цена: {{ dish.price }} руб.</p>
+                </div>
+                <form action="{{ url_for('cook_request_food') }}" method="post" style="display: flex; gap: 10px; align-items: center;">
+                    <input type="hidden" name="dish_name" value="{{ dish.name }}">
+                    <input type="number" name="quantity" placeholder="Шт." class='count_order_card'>
+                    <button type="submit" class="btn_issue_order">Заказать</button>
+                </form>
+            </div>
         {% endfor %}
     </div>
-    <div class="purchase">
-        <h1>Закупка</h1>
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Non, earum. Delectus nisi autem molestias eligendi commodi accusamus necessitatibus, vel ex facere assumenda corrupti debitis doloribus harum porro laboriosam, accusantium nulla!</p>
-        {{ form.send_request(button_)}}
+    <div class='my_requests_box'>
+        <h3>Мои активные заявки</h3>
+        <ul>
+            {% for req in my_requests %}
+                <li>{{ req.product_name }} ({{ req.quantity }} шт.) — <b>{{ req.status }}</b></li>
+            {% endfor %}
+        </ul>
     </div>
-    </form>
+</div>
 </body>
 </html>
-

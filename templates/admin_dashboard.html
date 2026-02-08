@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin_dashboard.css') }}">
+    <title>CafeteriaFlow — Admin</title>
+</head>
+<body>
+    <div class="header">
+        <div class="contnet_header">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" class="my_logo_class" alt="Логотип">
+            <div class="user-info">
+                <h2>{{ current_user.name }} (Админ)</h2>
+                <a href="{{ url_for('logout') }}" class="logout-btn">Выйти</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="main_container">
+        <div class="column">
+            <h1 class="requests_name">Заявки на закупку</h1>
+            <div class="scrollable_list">
+                {% if pending_requests %}
+                    {% for req in pending_requests %}
+                        <div class="order-card">
+                            <div class="request-info">
+                                <h3>{{ req.product_name }}</h3>
+                                <p>Количество: <strong>{{ req.quantity }}</strong></p>
+                                <p class="req-author">От: Повар (ID: {{ req.cook_id }})</p>
+                            </div>
+                            <div class="action_buttons">
+                                <form action="{{ url_for('admin_approve_request', req_id=req.id) }}" method="post">
+                                    <button type="submit" class="btn_approve">✅</button>
+                                </form>
+                                <form action="{{ url_for('admin_reject_request', req_id=req.id) }}" method="post">
+                                    <button type="submit" class="btn_reject">❌</button>
+                                </form>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p style="text-align: center; color: gray;">Нет новых заявок.</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="column">
+            <h1>Статистика столовой</h1>
+            <div class="stats-grid">
+                <div class="stat_card revenue">
+                    <h3>Общая выручка</h3>
+                    <p class="stat_value">{{ total_revenue }} ₽</p>
+                </div>
+                <div class="stat_card orders">
+                    <h3>Всего заказов</h3>
+                    <p class="stat_value">{{ total_orders }}</p>
+                </div>
+                <div class="stat_card users">
+                    <h3>Пользователей</h3>
+                    <p class="stat_value">{{ total_users }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="stats_section">
+    <h2>Отчет по дням (Посещаемость и Оплаты)</h2>
+    <table class="stats_table">
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Посетителей (заказов)</th>
+                <th>Выручка</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for day in daily_stats %}
+            <tr>
+                <td>{{ day[0] }}</td> 
+                <td>{{ day[1] }} чел.</td>
+                <td>{{ day[2] }} руб.</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3">Данных пока нет</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+    </div>
+</body>
+</html>
