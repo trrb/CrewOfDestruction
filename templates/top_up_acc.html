@@ -7,22 +7,45 @@
     <title>CafeteriaFlow — Вход</title>
 </head>
 <body>
+    <form method="post">
     {{ form.hidden_tag() }}
     <div class="header">
-        <form class="contnet_header" method="post">
+        <div class="contnet_header">
         {{ form.hidden_tag() }}
         {{ form.reviews(class_="button_") }}
         {{ form.basket(class_="button_") }}
         <img src="{{ url_for('static', filename='images/logo.png') }}" class="my_logo_class" alt="Логотип">
         {{ form.menu(class_="button_") }}
         {{ form.profile(class_="button_") }}
-        </form>
+        </div>
     </div>
-    <div class="input_box">
-        <label>Введите сумму</label>
-        {{ form.top_up(class_="input_inside") }}
-        {{ form.top_up_acc(class_='button_') }}
+    <div class="main-container">
+        <div class="input_box">
+            <label>Введите сумму</label>
+            {{ form.top_up(class_="input_inside") }}
+            {{ form.top_up_acc_balance(class_='button_') }}
+        </div>
+        <div class="subscription_block">
+        <h2>Абонемент</h2>
+        
+        {% if current_user.has_active_subscription() %}
+            <div class="status-active" style="color: green;">
+                <h3>Все клево</h3>
+                <p>Действует до: {{ current_user.subscription_until.strftime('%d.%m.%Y') }}</p>
+            </div>
+        {% else %}
+            <div class="status-inactive">
+                <h3>Чай дохлебывай и ...</h3>
+                <p>Купите абонемент, чтобы питаться бесплатно!</p>
+                <p>Цена: <strong>3000 руб.</strong></p>
+                
+                <!-- Кнопка покупки -->
+                {{ form.submit_subscription(class_="button_buy_sub") }}
+            </div>
+        {% endif %}
+        </div>
     </div>
+    </form>
 </body>
 </html>
 </html>

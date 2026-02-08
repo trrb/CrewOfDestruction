@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 from .base import Base
 
 
+
 class Dish(Base):
 
     __tablename__ = 'dishes'
@@ -11,6 +12,7 @@ class Dish(Base):
     name = sqlalchemy.Column(sqlalchemy.String, unique=True)
     price = sqlalchemy.Column(sqlalchemy.Float, default=0.0)
     type = sqlalchemy.Column(sqlalchemy.String)
+    allergen_name = sqlalchemy.Column(sqlalchemy.String)
 
     foods = relationship(
         'Food',

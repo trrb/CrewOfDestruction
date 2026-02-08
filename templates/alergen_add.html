@@ -4,30 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='alergen_add.css') }}">
-    <title>CafeteriaFlow — Вход</title>
+    <title>CafeteriaFlow — Аллергены</title>
 </head>
 <body>
-    {{ form.hidden_tag() }}
     <div class="header">
         <form class="contnet_header" method="post">
-        {{ form.hidden_tag() }}
-        {{ form.reviews(class_="button_") }}
-        {{ form.basket(class_="button_") }}
-        <img src="{{ url_for('static', filename='images/logo.png') }}" class="my_logo_class" alt="Логотип">
-        {{ form.menu(class_="button_") }}
-        {{ form.profile(class_="button_") }}
+            {{ form.hidden_tag() }}
+            {{ form.reviews(class_="button_") }}
+            {{ form.basket(class_="button_") }}
+            <img src="{{ url_for('static', filename='images/logo.png') }}" class="my_logo_class" alt="Логотип">
+            {{ form.menu(class_="button_") }}
+            {{ form.profile(class_="button_") }}
         </form>
     </div>
-    <h2 class="my_alerg">
-        Мои аллергены
-    </h2>
-    <div class="my_alergen">
-    </div>
-    <h2 class="all_alerg">
-        Все аллергены
-    </h2>
-    <div class="all_alergen">
+    <div class="content-container" style="padding: 20px; max-width: 800px; margin: 0 auto;">
+        
+        <h1>Аллергены</h1>
+        <p>Отметьте продукты, которые вам нельзя употреблять. Блюд с этими продуктами не будет в меню.</p>
+        <form method="post">
+            <div class="checkbox-grid" style="display: flex; flex-direction: column; gap: 15px; margin: 30px 0;">
+                {% for allergen in all_allergens %}
+                    <div class="checkbox-item" style="font-size: 1.2rem;">
+                        <label style="cursor: pointer; display: flex; align-items: center; gap: 10px;">
+
+                            <input type="checkbox" 
+                                   name="allergen_ids" 
+                                   value="{{ allergen.id }}"
+                                   style="width: 20px; height: 20px;"
+                                   {% if allergen in user.allergens %} checked {% endif %}>
+                            <span>{{ allergen.name }}</span>
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="submit" name="save_allergens" value="1" class="button_">
+                Сохранить изменения
+            </button>
+        </form>
     </div>
 </body>
-</html>
 </html>

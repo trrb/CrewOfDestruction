@@ -30,9 +30,17 @@
         </form>
     </div>
     <div class="check_profile">
-        <a>
-            История заказов:
-        </a>
+        {% if history %}
+        <div class="last-order-card">
+            <h3>История заказов:</h3>
+            <p><strong>Блюда:</strong> {{ history[0].name }}</p>
+            <p><strong>Сумма:</strong> {{ history[0].summa }} руб.</p>
+            <p><strong>Статус:</strong> {{ history[0].info }}</p>
+            <p><strong>Дата:</strong> {{ history[0].created_date.strftime('%d.%m.%Y %H:%M') }}</p>
+        </div>
+        {% else %}
+            <p>Лох голодный</p>
+        {% endif %}
     </div>
         <form class="contnet_header" method="post">
             {{ form.hidden_tag() }}
@@ -40,5 +48,4 @@
         </form>
     </div>
 </body>
-</html>
 </html>

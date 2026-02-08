@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='cook_dashboard.css') }}">
+    <title>CafeteriaFlow — Вход</title>
+</head>
+<body>
+    <form method="post">
+    <div class="header">
+        <div class="contnet_header" method="post">
+            {{ form.hidden_tag() }}
+            <img src="{{ url_for('static', filename='images/logo.png') }}"
+                class="my_logo_class"
+                alt="Логотип">
+        </div>
+    </div>
+    <div class="orders_table">
+        <h1>Учёт</h1>
+        {% for elem in history_dish %}
+            <p> {{ elem. }} {{status}}</p>
+            {{ form.give_dish(class_="button_give")}}
+        {% endfor %}
+    </div>
+    <div class="purchase">
+        <h1>Закупка</h1>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Non, earum. Delectus nisi autem molestias eligendi commodi accusamus necessitatibus, vel ex facere assumenda corrupti debitis doloribus harum porro laboriosam, accusantium nulla!</p>
+        {{ form.send_request(button_)}}
+    </div>
+    </form>
+</body>
+</html>
+
