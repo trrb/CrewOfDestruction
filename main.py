@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, abort
 from flask_login import LoginManager, login_user, logout_user, login_required, \
     current_user
 from dataalchemy import create_session, global_init
@@ -14,7 +14,7 @@ from forms.bascketform import BascketForm
 from forms.alergen_add import Alergen_add
 from forms.new_reviews import New_reviews
 from forms.top_up_acc import Top_up_acc
-from sqlalchemy import desc 
+from sqlalchemy import desc, func
 from flask import flash
 from dataalchemy.models.history import History
 import datetime
@@ -384,27 +384,105 @@ def cook_dashboard():
                            orders=orders, 
                            all_dishes=all_dishes,
                            my_requests=my_requests)
+@app.route('/cook_issue/<int:order_id>', methods=['POST'])
+@login_required
+def cook_issue(order_id):
+    if current_user.role_id != 2:
+        return redirect(url_for('first_page'))
+        
+    session = create_session()
+    order = session.query(History).get(order_id)
+    if order:
+        order.info = "Выдано" # Меняем статус в истории
+        session.commit()
+    
+    session.close()
+    return redirect(url_for('cook_dashboard'))
 @app.route('/cook_request_food', methods=['POST'])
 @login_required
 def cook_request_food():
     if current_user.role_id != 2:
         return redirect(url_for('first_page'))
+        
     session = create_session()
+    
     dish_name = request.form.get('dish_name')
     quantity = request.form.get('quantity')
+    
     if dish_name and quantity:
+        # 1. СНАЧАЛА УДАЛЯЕМ старые заявки на этот же продукт
+        session.query(PurchaseRequest).filter(
+            PurchaseRequest.product_name == dish_name
+        ).delete()
+        
+        # 2. Потом создаем новую
         req = PurchaseRequest(
             product_name=dish_name,
-            quantity=quantity,
+            quantity=quantity, # Не забудь, у тебя поле count!
             cook_id=current_user.id,
             status='pending'
         )
         session.add(req)
         session.commit()
-        flash(f'Заявка на {dish_name} ({quantity} шт.) отправлена!', 'success')
+        flash(f'Заявка на {dish_name} ({quantity} шт.) обновлена!', 'success')
+        
     session.close()
     return redirect(url_for('cook_dashboard'))
 
+
+@app.route('/admin_dashboard', methods=['GET', 'POST'])
+@login_required
+def admin_dashboard():
+    # Проверка: только админ (id=3)
+    if current_user.role_id != 3:
+        return redirect(url_for('first_page'))
+
+    session = create_session()
+
+    # 1. Загружаем заявки на закупку (только pending)
+    pending_requests = session.query(PurchaseRequest).filter(PurchaseRequest.status == 'pending').all()
+    
+    # 2. Статистика
+    # Выручка (сумма всех оплат в History)
+    total_revenue = session.query(func.sum(History.summa)).scalar() or 0
+    
+    # Количество заказов сегодня (можно усложнить, но пока общее)
+    total_orders = session.query(History).count()
+    
+    # Количество пользователей
+    total_users = session.query(User).count()
+
+    session.close()
+    return render_template('admin_dashboard.html', 
+                           pending_requests=pending_requests,
+                           total_revenue=total_revenue,
+                           total_orders=total_orders,
+                           total_users=total_users)
+
+# --- РОУТЫ ДЛЯ КНОПОК ОДОБРИТЬ/ОТКЛОНИТЬ ---
+@app.route('/admin_approve_request/<int:req_id>', methods=['POST'])
+@login_required
+def admin_approve_request(req_id):
+    if current_user.role_id != 3: return abort(403)
+    session = create_session()
+    req = session.query(PurchaseRequest).get(req_id)
+    if req:
+        req.status = 'approved' # Одобрено
+        session.commit()
+    session.close()
+    return redirect(url_for('admin_dashboard'))
+
+@app.route('/admin_reject_request/<int:req_id>', methods=['POST'])
+@login_required
+def admin_reject_request(req_id):
+    if current_user.role_id != 3: return abort(403)
+    session = create_session()
+    req = session.query(PurchaseRequest).get(req_id)
+    if req:
+        req.status = 'rejected' # Отклонено
+        session.commit()
+    session.close()
+    return redirect(url_for('admin_dashboard'))
 
 if __name__ == "__main__":
     session = create_session()

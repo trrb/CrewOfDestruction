@@ -1,0 +1,247 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200..1000&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body, input, button, textarea, select {
+    font-family: 'Nunito', sans-serif;
+    color: #22223b;
+}
+/* dff */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f2e9e4;
+    overflow-x: hidden;
+}
+
+.header {
+    width: 100%;
+    height: 150px;
+    background-color: #4a4e69;
+}
+
+.contnet_header {
+    height: 100%;
+    padding: 0 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.button_ {
+    height: 60px;
+    width: 150px;
+    padding: 0 20px;
+    flex-shrink: 0;
+}
+
+.my_logo_class {
+    width: 150px;
+    height: 150px;
+}
+.main_container {
+    display: flex;
+    gap: 40px;
+    padding: 40px;
+    height: calc(100vh - 150px); /* На весь экран минус шапка */
+}
+
+.column {
+    flex: 1;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column; /* Чтобы скролл работал правильно */
+}
+
+
+.scrollable_list {
+    flex: 1; /* Занимает все оставшееся место */
+    overflow-y: auto; /* Включает скролл */
+    padding-right: 10px;
+}
+
+.order-card {
+    background: #f8f9fa;
+    border: 1px solid #eee;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-card.done {
+    opacity: 0.6; 
+    background: #e9ecef;
+}
+
+.btn-issue {
+    background: #2a9d8f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.btn-issue:hover {
+    background: #21867a;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 10px;
+    background: #4a4e69;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.logout-btn {
+    background: #e63946;
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.count_order_card
+{
+    width: 70px; 
+    padding: 5px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px;
+}
+.btn_issue_order
+{
+    background: #4a4e69;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+.btn_issue_order:hover {
+    background: #21867a;
+}
+.my_requests_box
+{
+    margin-top: 20px; 
+    border-top: 1px solid #eee; 
+    padding-top: 10px;
+}
+.user-info {
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.action_buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn_approve {
+    background: #2a9d8f; 
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+.btn_approve:hover { background: #21867a; }
+
+.btn_reject {
+    background: #e63946; 
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+.btn_reject:hover 
+{ 
+    background: #c1121f; 
+}
+
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.stat-card {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 5px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.stat-card.revenue
+{ 
+    border-left-color: #2a9d8f; 
+} 
+.stat-card.orders 
+{ 
+    border-left-color: #e9c46a; 
+}
+.stat-card.users 
+{ 
+    border-left-color: #4a4e69; 
+}
+
+.stat-card h3 
+{ 
+    margin: 0 0 10px 0;
+     font-size: 1rem; 
+     color: #666; 
+}
+.stat_value 
+{ 
+    font-size: 2rem; 
+    font-weight: bold; 
+    margin: 0; color: #222; 
+}
+
+.admin-hint 
+{
+    margin-top: 40px;
+    padding: 15px;
+    background: #eef;
+    border-radius: 8px;
+    color: #444;
+}

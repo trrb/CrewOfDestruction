@@ -8,7 +8,7 @@ class PurchaseRequest(Base):
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     product_name = sqlalchemy.Column(sqlalchemy.String, nullable=False) 
-    count = sqlalchemy.Column(sqlalchemy.String, nullable=False)
+    quantity = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     status = sqlalchemy.Column(sqlalchemy.String, default='pending')
     created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
     
