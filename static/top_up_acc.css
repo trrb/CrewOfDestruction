@@ -99,3 +99,44 @@ body
     padding: 5px 10px;
     border-radius: 5px;
 }
+
+.flash-overlay {
+    position: fixed;
+    top: 180px;
+    left: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    pointer-events: none;
+}
+
+.flash-card {
+    min-width: 300px;
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    backdrop-filter: blur(4px);
+    pointer-events: auto;
+    animation: slideIn 0.5s ease-out;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.flash-error {
+    background-color: rgba(230, 57, 70, 0.75);
+    color: white;
+}
+
+.flash-success {
+    background-color: rgba(76, 175, 80, 0.75);
+    color: white;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(-50px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}

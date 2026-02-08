@@ -21,8 +21,8 @@
     </div>
     <div class="content-container" style="padding: 20px; max-width: 800px; margin: 0 auto;">
 
-        <h1>Аллергены</h1>
-        <p>Отметьте продукты, которые вам нельзя употреблять. Блюд с этими продуктами не будет в меню.</p>
+        <h1>Аллергены и предпочтения</h1>
+        <p>Отметьте продукты, которые вам нельзя или не хочется употреблять. Блюд с этими продуктами не будет в меню.</p>
         <form method="post">
             <div class="checkbox-grid" style="display: flex; flex-direction: column; gap: 15px; margin: 30px 0;">
                 {% for allergen in all_allergens %}
@@ -40,6 +40,17 @@
                 Сохранить изменения
             </button>
         </form>
+    </div>
+    <div class="flash-overlay">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-card flash-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
     </div>
 </body>
 

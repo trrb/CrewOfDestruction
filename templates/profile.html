@@ -47,5 +47,16 @@
         {% else %}
             <p>У вас не было заказов</p>
         {% endif %}
+    <div class="flash-overlay">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-card flash-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    </div>
 </body>
 </html>

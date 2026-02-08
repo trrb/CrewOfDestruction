@@ -31,5 +31,16 @@
 
             <p>Уже есть аккаунт? <a href="{{ url_for('login') }}">Войти</a></p>
         </form>
+    <div class="flash-overlay">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-card flash-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    </div>
 </body>
 </html>
