@@ -14,11 +14,6 @@ class Dish(Base):
     type = sqlalchemy.Column(sqlalchemy.String)
     allergen_name = sqlalchemy.Column(sqlalchemy.String)
 
-    foods = relationship(
-        'Food',
-        secondary='dish_foods',
-        back_populates='dishes'
-    )
 
     bascket = relationship(
         'Bascket',

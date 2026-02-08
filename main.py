@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, abort
 from flask_login import LoginManager, login_user, logout_user, login_required, \
     current_user
 from dataalchemy import create_session, global_init
-from dataalchemy import User, Dish, Food, DishFood, LunchDish, \
+from dataalchemy import User, Dish, LunchDish, \
     BreakfastDish, RoleAdmin, RoleCook, Review, Bascket, Allergen, PurchaseRequest, History
 from default_menu import default_menu
 from forms.register import RegisterForm
