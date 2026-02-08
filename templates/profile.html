@@ -33,6 +33,9 @@
         <a>
             История заказов:
         </a>
+        <p><strong>Блюда:</strong> {{ history[0].name }}</p>
+        <p><strong>Сумма:</strong> {{ history[0].summa }} руб.</p>
+        <p><strong>Дата:</strong> {{ history[0].created_date.strftime('%d.%m.%Y %H:%M') }}</p>
     </div>
         <form class="contnet_header" method="post">
             {{ form.hidden_tag() }}

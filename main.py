@@ -16,6 +16,7 @@ from forms.new_reviews import New_reviews
 from forms.top_up_acc import Top_up_acc
 from sqlalchemy import desc 
 from flask import flash
+from dataalchemy.models.history import History
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'crewdestruct'
@@ -134,7 +135,7 @@ def profile():
     form = Profile()
     session = create_session()
     user = session.query(User).filter(User.id == current_user.id).first()
-    print(user)
+    user_history = session.query(History).filter(History.id_user == current_user.id).order_by(History.created_date.desc()).all()
     session.close()
     if form.validate_on_submit():
         if form.profile.data:
@@ -149,7 +150,7 @@ def profile():
             return redirect(url_for('alergen_add'))
         elif form.top_up_acc.data:
             return redirect(url_for('top_up_acc'))
-    return render_template('profile.html', form=form, user=user)
+    return render_template('profile.html', form=form, user=user, history=user_history)
 
 
 @app.route('/reviews', methods=['GET', 'POST'])
@@ -225,6 +226,15 @@ def bascket():
             user = session.query(User).filter(User.id == current_user.id).first()
             if user.balance >= bascket_sum:
                 user.balance -= bascket_sum
+                dish_names = [item.dish.name for item in object]
+                dishes_string = ", ".join(dish_names)
+                new_order = History(
+                    id_user=current_user.id,
+                    name=dishes_string,      # Список блюд
+                    summa=bascket_sum,       # Общая сумма
+                    info="Оплачено"          # Статус (т.к. поле обязательное)
+                )
+                session.add(new_order)
                 for item in object:
                     session.delete(item)#ПОтом добавить чтоб поварихам все улетало------------
                 
