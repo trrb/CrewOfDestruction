@@ -17,6 +17,8 @@ from forms.top_up_acc import Top_up_acc
 from sqlalchemy import desc 
 from flask import flash
 from dataalchemy.models.history import History
+import datetime
+from datetime import timedelta
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'crewdestruct'
@@ -212,6 +214,12 @@ def bascket():
     lunch = session.query(Dish).filter(Dish.type == 'lunch' and Bascket.user_id == current_user.id).all()
     dishes = session.query(Dish).filter(Dish.type == 'dish' and Bascket.user_id == current_user.id).all()
     bascket_sum = sum(elem.dish.price for elem in object)
+    is_free = False
+    if current_user.has_active_subscription():
+        is_free = True
+        final_price_to_pay = 0 # Платить ничего не надо
+    else:
+        final_price_to_pay = bascket_sum
     if form.validate_on_submit():
         if form.profile.data:
             return redirect(url_for('profile'))
@@ -224,8 +232,8 @@ def bascket():
     if request.method == 'POST':
         if form.accept_bascket.data:  # Если нажали "Оформить заказ"
             user = session.query(User).filter(User.id == current_user.id).first()
-            if user.balance >= bascket_sum:
-                user.balance -= bascket_sum
+            if user.balance >= final_price_to_pay:
+                user.balance -= final_price_to_pay
                 dish_names = [item.dish.name for item in object]
                 dishes_string = ", ".join(dish_names)
                 new_order = History(
@@ -274,10 +282,10 @@ def top_up_acc():
         elif form.basket.data:
             return redirect(url_for('bascket'))
     if form.validate_on_submit():
+        session = create_session()
+        user = session.query(User).filter(User.id == current_user.id).first()
         if form.top_up_acc_balance.data:
             print('Кнопка нажата!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-            session = create_session()
-            user = session.query(User).filter(User.id == current_user.id).first()
             if user:
                 money_to_add = int(form.top_up.data)
                 current_balance = user.balance if user.balance else 0
@@ -287,6 +295,23 @@ def top_up_acc():
                 print('ВСЕ РАБОТАЕТ!!!!!!!!!!!!!!!!!!!!')
                 session.close()
             return redirect(url_for('top_up_acc'))
+        if form.submit_subscription.data:
+            SUBSCRIPTION_PRICE = 3000
+            
+            if user.balance >= SUBSCRIPTION_PRICE:
+                user.balance -= SUBSCRIPTION_PRICE
+                
+                # Если уже был абонемент, продлеваем, если нет — ставим с сегодня
+                now = datetime.datetime.now()
+                if user.subscription_until and user.subscription_until > now:
+                    user.subscription_until += timedelta(days=30)
+                else:
+                    user.subscription_until = now + timedelta(days=30)
+                
+                session.commit()
+                flash('Абонемент успешно куплен!', 'success')
+            else:
+                flash('Недостаточно средств для покупки абонемента!', 'error')
     else:
         print("НЕ работает!!!!!!!!!!!!!!!")
     return render_template('top_up_acc.html', form=form)

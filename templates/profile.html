@@ -33,9 +33,19 @@
         <a>
             История заказов:
         </a>
-        <p><strong>Блюда:</strong> {{ history[0].name }}</p>
-        <p><strong>Сумма:</strong> {{ history[0].summa }} руб.</p>
-        <p><strong>Дата:</strong> {{ history[0].created_date.strftime('%d.%m.%Y %H:%M') }}</p>
+        {% if history %}
+        <div class="last-order-card">
+            <h3>Последний заказ:</h3>
+            <!-- Теперь безопасно обращаться к [0], так как мы внутри if -->
+            <p><strong>Блюда:</strong> {{ history[0].name }}</p>
+            <p><strong>Сумма:</strong> {{ history[0].summa }} руб.</p>
+            <p><strong>Статус:</strong> {{ history[0].info }}</p>
+            <p><strong>Дата:</strong> {{ history[0].created_date.strftime('%d.%m.%Y %H:%M') }}</p>
+        </div>
+        {% else %}
+            <!-- Если истории нет, показываем текст -->
+            <p>Лох голодный</p>
+        {% endif %}
     </div>
         <form class="contnet_header" method="post">
             {{ form.hidden_tag() }}

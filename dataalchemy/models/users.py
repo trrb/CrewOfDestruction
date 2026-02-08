@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 from .base import Base
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+import datetime
 
 
 class User(Base, UserMixin):
@@ -13,7 +14,7 @@ class User(Base, UserMixin):
     email = sqlalchemy.Column(sqlalchemy.String, unique=True)
     hashed_password = sqlalchemy.Column(sqlalchemy.String)
     balance = sqlalchemy.Column(sqlalchemy.Float, default=0.0)
-
+    subscription_until = sqlalchemy.Column(sqlalchemy.DateTime, nullable=True)
     role_id = sqlalchemy.Column(sqlalchemy.Integer)
 
     reviews = relationship('Review', back_populates='user')
@@ -39,6 +40,11 @@ class User(Base, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.hashed_password, password)
+    
+    def has_active_subscription(self):
+        if self.subscription_until and self.subscription_until > datetime.datetime.now():
+            return True
+        return False
 
 
 class RoleAdmin(User):

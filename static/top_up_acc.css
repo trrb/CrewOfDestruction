@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 /* При заходе на сайт автоматом скачается шрифт */
-body, textarea, select {
+body, textarea, select, label {
     font-family: 'Nunito', sans-serif; /* ВЕЗДЕ будет Nunito */
     color: #22223b; /*темно-синий цвет текста везде*/
 }
@@ -59,10 +59,43 @@ body
     padding-top: 30vh;
 }
 
-.input_inside
+.main-container 
 {
-    background-color: #fafafa;/*цвет фона*/
-    border: 0;/*толщина границ*/
-    outline: 0;/*толщина границ, которые появляются при нажатии на поле ввода*/
-    height: 35px;/*высота поля ввода*/
+    display: flex;
+    flex-direction: row; /* В строку */
+    justify-content: space-between; /* Раскидать по краям (или center) */
+    align-items: flex-start; /* Выровнять по верху */
+    padding: 200px 500px; /* Отступ сверху 100px, по бокам 50px */
+    gap: 50px; /* Расстояние между блоками */
+}
+
+
+.subscription-block 
+{
+    width: 300px; 
+    padding: 20px;
+    background-color: #fff; 
+    border-radius: 10px;
+}
+
+.input_box 
+{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    gap: 15px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.input_inside 
+{
+    background-color: #fafafa;
+    border: 1px solid #ccc; 
+    outline: 0;
+    height: 35px;
+    padding: 5px 10px;
+    border-radius: 5px;
 }
