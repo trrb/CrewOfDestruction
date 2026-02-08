@@ -44,15 +44,15 @@
 
 ## Дизайн и стили:
   ### Цветовая палитра:
-  **Основной фон**: #f2e9e4 (светлый бежевый)
-  **Хедер**: #4a4e69 (темно-синий)
-  **Карточки**: #c9ada7 (розовато-бежевый)
-  **Текст**: #22223b (темно-синий)
-  **Акценты**: #4a4e69, #9a8c98
+  - **Основной фон**: #f2e9e4 (светлый бежевый)
+  - **Хедер**: #4a4e69 (темно-синий)
+  - **Карточки**: #c9ada7 (розовато-бежевый)
+  - **Текст**: #22223b (темно-синий)
+  - **Акценты**: #4a4e69, #9a8c98
 
   ### Шрифты:
-  **Основной**: Nunito (Google Fonts)
-  **Насыщенный**: 200-1000 weight range
+  - **Основной**: Nunito (Google Fonts)
+  - **Насыщенный**: 200-1000 weight range
 
 ## Интерфейс:
 
@@ -77,91 +77,91 @@
   - **SQLite** - файловая база данных
 
 ## Структура проекта:
-  dataalchemy/
+  dataalchemy/  
   ├── models/                    # Модели SQLAlchemy  
   │   ├── __init__.py            # Экспорт моделей  
   │   ├── allergens.py           # Аллергены и связи с пользователями  
   │   ├── bascket.py             # Корзина покупок  
   │   ├── base.py                # Базовый класс моделей  
   │   ├── dish_food.py           # Связь блюда-продукты  
-  │   ├── dishes.py              # Блюда (базовые, завтраки, обеды)
-  │   ├── food.py                # Продукты/ингредиенты
-  │   ├── history.py             # История заказов
-  │   ├── purchase_request.py    # Заявки на закупку
-  │   ├── reviews.py             # Отзывы
-  │   └── users.py               # Пользователи (ученики, повара, админы)
-  │
-  ├── __init__.py                # Инициализация пакета dataalchemy
-  ├── db_engine.py               # Настройка движка БД (SQLite)
-  ├── db_session.py              # Управление сессиями БД
-
-  database/
-  ├── school.db                  # База данных со всей информацией
+  │   ├── dishes.py              # Блюда (базовые, завтраки, обеды)  
+  │   ├── food.py                # Продукты/ингредиенты  
+  │   ├── history.py             # История заказов  
+  │   ├── purchase_request.py    # Заявки на закупку  
+  │   ├── reviews.py             # Отзывы  
+  │   └── users.py               # Пользователи (ученики, повара, админы)  
+  │  
+  ├── __init__.py                # Инициализация пакета dataalchemy  
+  ├── db_engine.py               # Настройка движка БД (SQLite)  
+  ├── db_session.py              # Управление сессиями БД  
   
-  forms/                         # WTForms формы
-  ├── alergen_add.py             # Форма добавления аллергенов
-  ├── bascketform.py             # Форма корзины
-  ├── cook_dashboard.py          # Форма панели повара
-  ├── first_page.py              # Форма главной страницы
-  ├── login.py                   # Форма входа
-  ├── new_reviews.py             # Форма нового отзыва
-  ├── profile.py                 # Форма профиля
-  ├── register.py                # Форма регистрации
-  ├── reviews.py                 # Форма отзывов
-  └── top_up_acc.py              # Форма пополнения счета
+  database/  
+  ├── school.db                  # База данных со всей информацией  
+    
+  forms/                         # WTForms формы  
+  ├── alergen_add.py             # Форма добавления аллергенов  
+  ├── bascketform.py             # Форма корзины  
+  ├── cook_dashboard.py          # Форма панели повара  
+  ├── first_page.py              # Форма главной страницы  
+  ├── login.py                   # Форма входа  
+  ├── new_reviews.py             # Форма нового отзыва  
+  ├── profile.py                 # Форма профиля  
+  ├── register.py                # Форма регистрации  
+  ├── reviews.py                 # Форма отзывов  
+  └── top_up_acc.py              # Форма пополнения счета  
+    
+  static/                        # Статические файлы  
+  ├── images/                    # Изображения  
+  │   ├── logo.png  
+  │   ├── no_image.jpg  
+  │   ├── breakfast/             # Папка с изображениями завтраков  
+  │   └── lunch/                 # Папка с изображениями обедов  
+  │  
+  ├── alergen_add.css            # Стиль для alergen_add.html  
+  ├── bascket.css                # Стиль для bascket.html  
+  ├── cook_dashboard.css         # Стиль для cook_dashboard.html  
+  ├── first_page.css             # Стиль для first_page.html  
+  ├── Log_in.css                 # Стиль для log_in.html  
+  ├── new_reviews.css            # Стиль для new_reviews.html  
+  ├── profile.css                # Стиль для profile.html  
+  ├── registration.css           # Стиль для registration.html  
+  ├── reviews.css                # Стиль для reviews.html  
+  └── top_up_acc.css             # Стиль для top_up_acc.html  
+    
+  templates/                     # HTML шаблоны  
+  ├── alergen_add.html  
+  ├── bascket.html  
+  ├── cook_dashboard.html  
+  ├── first_page.html  
+  ├── log_in.html  
+  ├── new_reviews.html  
+  ├── profile.html  
+  ├── registration.html  
+  ├── reviews.html  
+  └── top_up_acc.html  
   
-  static/                        # Статические файлы
-  ├── images/                    # Изображения
-  │   ├── logo.png
-  │   ├── no_image.jpg
-  │   ├── breakfast/             # Папка с изображениями завтраков
-  │   └── lunch/                 # Папка с изображениями обедов
-  │
-  ├── alergen_add.css            # Стиль для alergen_add.html
-  ├── bascket.css                # Стиль для bascket.html
-  ├── cook_dashboard.css         # Стиль для cook_dashboard.html
-  ├── first_page.css             # Стиль для first_page.html
-  ├── Log_in.css                 # Стиль для log_in.html
-  ├── new_reviews.css            # Стиль для new_reviews.html
-  ├── profile.css                # Стиль для profile.html
-  ├── registration.css           # Стиль для registration.html
-  ├── reviews.css                # Стиль для reviews.html
-  └── top_up_acc.css             # Стиль для top_up_acc.html
-  
-  templates/                     # HTML шаблоны
-  ├── alergen_add.html
-  ├── bascket.html
-  ├── cook_dashboard.html
-  ├── first_page.html
-  ├── log_in.html
-  ├── new_reviews.html
-  ├── profile.html
-  ├── registration.html
-  ├── reviews.html
-  └── top_up_acc.html
-
-  default_menu.py              # Стандартное меню блюд
-  main.py                      # Основное Flask-приложение
-  requirements.txt             # Зависимости Python
+  default_menu.py              # Стандартное меню блюд  
+  main.py                      # Основное Flask-приложение  
+  requirements.txt             # Зависимости Python  
 
 ## Модели базы данных
 
   ### Основные сущности:
-  **User** - пользователи (ученики, повара, админы)
-  **Dish** - блюда (с полиморфизмом на BreakfastDish и LunchDish)
-  **Food** - продукты/ингредиенты
-  **Allergen** - аллергены
-  **Bascket** - корзина покупок
-  **Review** - отзывы
-  **History** - история заказов
-  **PurchaseRequest** - заявки на закупку
-  
+  - **User** - пользователи (ученики, повара, админы)
+  - **Dish** - блюда (с полиморфизмом на BreakfastDish и LunchDish)
+  - **Food** - продукты/ингредиенты
+  - **Allergen** - аллергены
+  - **Bascket** - корзина покупок
+  - **Review** - отзывы
+  - **History** - история заказов
+  - **PurchaseRequest** - заявки на закупку
+
   ### Связи:
-  **User** ↔ **Allergen** - аллергены пользователя
-  **Dish** ↔ **Food** - ингредиенты в блюде
-  **User** → **Bascket** - корзина пользователя
-  **User** → **Review** - отзывы пользователя
-  **User** → **History** - история заказов
+  - **User** ↔ **Allergen** - аллергены пользователя
+  - **Dish** ↔ **Food** - ингредиенты в блюде
+  - **User** → **Bascket** - корзина пользователя
+  - **User** → **Review** - отзывы пользователя
+  - **User** → **History** - история заказов
 
 ## Инициализация данных:
 
