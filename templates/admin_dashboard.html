@@ -19,7 +19,7 @@
 
     <div class="main_container">
         <div class="column">
-            <h1>Заявки на закупку</h1>
+            <h1 class="requests_name">Заявки на закупку</h1>
             <div class="scrollable_list">
                 {% if pending_requests %}
                     {% for req in pending_requests %}
@@ -61,7 +61,31 @@
                 </div>
             </div>
         </div>
-
+        <div class="stats_section">
+    <h2>Отчет по дням (Посещаемость и Оплаты)</h2>
+    <table class="stats_table">
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Посетителей (заказов)</th>
+                <th>Выручка</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for day in daily_stats %}
+            <tr>
+                <td>{{ day[0] }}</td> 
+                <td>{{ day[1] }} чел.</td>
+                <td>{{ day[2] }} руб.</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3">Данных пока нет</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
     </div>
 </body>
 </html>

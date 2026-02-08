@@ -25,7 +25,7 @@
     {% for elem in object %}
     {% if dish.id == elem.dish_id %}
     <div class="meal_card">
-        <div>>
+        <div>
             <input type="hidden" name="dish_id" value="{{ dish.id }}">
             <img src="{{ url_for('static', filename='images/breakfast/' ~ dish.name ~ '.jpg') }}"
                  alt="{{ dish.name }}"
