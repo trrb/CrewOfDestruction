@@ -73,7 +73,7 @@ a
     font-weight: 600;
     backdrop-filter: blur(4px);
     pointer-events: auto;
-    animation: slideIn 0.5s ease-out;
+    animation: slideIn 0.5s ease-out, slideOut 0.35s ease-in 1.5s forwards;
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
@@ -90,4 +90,7 @@ a
 @keyframes slideIn {
     from { transform: translateX(-50px); opacity: 0; }
     to { transform: translateX(0); opacity: 1; }
+}
+@keyframes slideOut {
+    to { transform: translateX(-50px); opacity: 0; }
 }
