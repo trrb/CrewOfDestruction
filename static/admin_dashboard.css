@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 
-body, input, button, textarea, select {
+body, input, button, textarea, select_field {
     font-family: 'Nunito', sans-serif;
     color: #22223b;
 }
@@ -96,15 +96,15 @@ body {
     background: #21867a;
 }
 
-.input-field {
-    width: 100%;
+.input_field {
+    width: 80%;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
 }
 
-.btn-submit {
+.btn_submit {
     width: 100%;
     padding: 10px;
     background: #4a4e69;
@@ -248,10 +248,8 @@ body {
 .stats_table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin-top: 0; /* Отступ лучше давать контейнеру, если что */
     background: white;
-    border-radius: 10px;
-    overflow: hidden;
 }
 
 .stats_table th, .stats_table td {
@@ -263,6 +261,10 @@ body {
 .stats_table th {
     background-color: #4a4e69;
     color: white;
+    position: sticky;
+    top: 0;
+    z-index: 10; /* Чтобы текст таблицы не наезжал сверху */
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
 }
 
 .stats_table tr:hover {
@@ -271,4 +273,84 @@ body {
 .requests_name
 {
     padding-left: 0px;
+}
+.scrollable_table
+{
+    max-height: 314px;
+    overflow-y: auto;
+    -ms-overflow-style: none;  
+    scrollbar-width: none;
+    border-radius: 10px;
+}
+.input_inside
+{
+    background-color: #fafafa;/*цвет фона*/
+    border: 0;/*толщина границ*/
+    outline: 0;/*толщина границ, которые появляются при нажатии на поле ввода*/
+    height: 35px;/*высота поля ввода*/
+}
+.flash-overlay {
+    position: fixed;
+    top: 180px;
+    left: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    pointer-events: none;
+}
+
+.flash-card {
+    min-width: 300px;
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    backdrop-filter: blur(4px);
+    pointer-events: auto;
+    animation: slideIn 0.5s ease-out, slideOut 0.35s ease-in 1.5s forwards;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.flash-error {
+    background-color: rgba(230, 57, 70, 0.75);
+    color: white;
+}
+
+.flash-success {
+    background-color: rgba(76, 175, 80, 0.75);
+    color: white;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(-50px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+@keyframes slideOut {
+    to { transform: translateX(-50px); opacity: 0; }
+}
+.custom_select
+{
+
+    width: 70px;
+    height: 40px;
+    border-width: 0;
+    border-radius: 5px;
+    font-family: 'Nunito', sans-serif;
+    color: #22223b;
+}
+select:focus,
+select:active,
+select:focus-visible {
+    outline: none !important;
+    border: none !important; 
+    box-shadow: none !important;
+}
+
+select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
 }

@@ -15,6 +15,7 @@ from forms.bascketform import BascketForm
 from forms.alergen_add import Alergen_add
 from forms.new_reviews import New_reviews
 from forms.top_up_acc import Top_up_acc
+from forms.admin import ChangeRoleForm
 from sqlalchemy import desc, func
 from flask import flash
 from dataalchemy.models.history import History
@@ -455,27 +456,41 @@ def cook_request_food():
 def admin_dashboard():
     if current_user.role_id != 3:
         return redirect(url_for('first_page'))
-    session = create_session()
-    pending_requests = session.query(PurchaseRequest).filter(
-        PurchaseRequest.status == 'pending').all()
-    total_revenue = session.query(func.sum(History.summa)).scalar() or 0
-    total_orders = session.query(History).count()
-    total_users = session.query(User).count()
+    form = ChangeRoleForm()
+    with create_session() as session:
+        if form.validate_on_submit():
+            new_role_id = int(form.role.data)
+            rows_updated = session.query(User).filter_by(email=form.email.data).update(
+                {"role_id": new_role_id}
+            )
+            session.commit()
+            if rows_updated > 0:
+                flash(f'Роль пользователя {form.email.data} изменена (ID: {new_role_id})', 'success')
+            else:
+                flash('Пользователь с такой почтой не найден', 'error')
+                
+            return redirect(url_for('admin_dashboard'))
+        pending_requests = session.query(PurchaseRequest).filter(
+            PurchaseRequest.status == 'pending').all()
+        total_revenue = session.query(func.sum(History.summa)).scalar() or 0
+        total_orders = session.query(History).count()
+        total_users = session.query(User).count()
+        
+        daily_stats = session.query(
+            func.date(History.created_date),
+            func.count(History.id),
+            func.sum(History.summa)
+        ).group_by(func.date(History.created_date)).order_by(
+            desc(func.date(History.created_date))).all()
+            
+        return render_template('admin_dashboard.html',
+                               pending_requests=pending_requests,
+                               total_revenue=total_revenue,
+                               total_orders=total_orders,
+                               total_users=total_users,
+                               daily_stats=daily_stats,
+                               form=form)
 
-    daily_stats = session.query(
-        func.date(History.created_date),
-        func.count(History.id),
-        func.sum(History.summa)
-    ).group_by(func.date(History.created_date)).order_by(
-        desc(func.date(History.created_date))).all()
-    session.close()
-    return render_template('admin_dashboard.html',
-                           pending_requests=pending_requests,
-                           total_revenue=total_revenue,
-                           total_orders=total_orders,
-                           total_users=total_users,
-                           daily_stats=daily_stats
-                           )
 
 
 @app.route('/admin_approve_request/<int:req_id>', methods=['POST'])
