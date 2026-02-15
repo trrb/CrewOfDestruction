@@ -522,7 +522,7 @@ def admin_reject_request(req_id):
 if __name__ == "__main__":
     session = create_session()
     try:
-        allergen_names = ['lactose', 'eggs']
+        allergen_names = ['lactose', 'eggs', 'fish', 'gluten']
         for name in allergen_names:
             if not session.query(Allergen).filter(
                     Allergen.name == name).first():
