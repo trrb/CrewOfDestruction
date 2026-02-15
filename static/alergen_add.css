@@ -167,6 +167,19 @@ h3 {
     right: 100px;
 }
 
+.checkbox_grid
+{
+    display: flex; 
+    flex-direction: column; 
+    gap: 15px; 
+    margin: 30px 0;
+}
+.checkbox_item
+{
+    font-size: 1.2rem;
+    font-family: 'Nunito', sans-serif; /* ВЕЗДЕ будет Nunito */
+    color: #22223b; /*темно-синий цвет текста везде*/
+}
 .flash-overlay {
     position: fixed;
     top: 180px;
@@ -189,7 +202,7 @@ h3 {
     font-weight: 600;
     backdrop-filter: blur(4px);
     pointer-events: auto;
-    animation: slideIn 0.5s ease-out;
+    animation: slideIn 0.5s ease-out, slideOut 0.35s ease-in 1.5s forwards;
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
@@ -206,4 +219,7 @@ h3 {
 @keyframes slideIn {
     from { transform: translateX(-50px); opacity: 0; }
     to { transform: translateX(0); opacity: 1; }
+}
+@keyframes slideOut {
+    to { transform: translateX(-50px); opacity: 0; }
 }

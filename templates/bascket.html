@@ -83,6 +83,17 @@
         {% endif %}
     {% endwith %}
     </div>
+    <script>
+        document.querySelectorAll('.flash-card').forEach((card) => {
+            card.addEventListener('animationend', (event) => {
+                if (event.animationName === 'slideOut') {
+                    card.remove();
+                    const overlay = document.querySelector('.flash-overlay');
+                    if (overlay && overlay.querySelectorAll('.flash-card').length === 0) overlay.remove();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
 </html>

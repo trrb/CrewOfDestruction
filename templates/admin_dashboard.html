@@ -62,30 +62,63 @@
             </div>
         </div>
         <div class="stats_section">
-    <h2>Отчет по дням (Посещаемость и Оплаты)</h2>
-    <table class="stats_table">
-        <thead>
-            <tr>
-                <th>Дата</th>
-                <th>Посетителей (заказов)</th>
-                <th>Выручка</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for day in daily_stats %}
-            <tr>
-                <td>{{ day[0] }}</td> 
-                <td>{{ day[1] }} чел.</td>
-                <td>{{ day[2] }} руб.</td>
-            </tr>
-            {% else %}
-            <tr>
-                <td colspan="3">Данных пока нет</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+            <h2>Отчет по дням (Посещаемость и Оплаты)</h2>
+            <div class="scrollable_table">
+                <table class="stats_table">
+                    <thead>
+                        <tr>
+                            <th>Дата</th>
+                            <th>Посетителей (заказов)</th>
+                            <th>Выручка</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for day in daily_stats %}
+                        <tr>
+                            <td>{{ day[0] }}</td> 
+                            <td>{{ day[1] }} чел.</td>
+                            <td>{{ day[2] }} руб.</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="3">Данных пока нет</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="add_cooker">
+                <h2>Изменить роль</h2>
+                <form method="post" class="role_form">
+                    {{ form.hidden_tag() }}
+                    {{ form.email(placeholder="Почта пользователя", class="input_field") }}
+                    {{ form.role(class="custom_select") }}
+                    {{ form.submit(class="btn_submit") }}
+                </form>
+            </div>
+        </div>
     </div>
+    <div class="flash-overlay">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-card flash-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+    <script>
+        document.querySelectorAll('.flash-card').forEach((card) => {
+            card.addEventListener('animationend', (event) => {
+                if (event.animationName === 'slideOut') {
+                    card.remove();
+                    const overlay = document.querySelector('.flash-overlay');
+                    if (overlay && overlay.querySelectorAll('.flash-card').length === 0) overlay.remove();
+                }
+            });
+        });
+    </script>
 </body>
 </html>

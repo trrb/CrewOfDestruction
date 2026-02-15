@@ -24,11 +24,10 @@
         <h1>Аллергены и предпочтения</h1>
         <p>Отметьте продукты, которые вам нельзя или не хочется употреблять. Блюд с этими продуктами не будет в меню.</p>
         <form method="post">
-            <div class="checkbox-grid" style="display: flex; flex-direction: column; gap: 15px; margin: 30px 0;">
+            <div class="checkbox_grid">
                 {% for allergen in all_allergens %}
-                <div class="checkbox-item" style="font-size: 1.2rem;">
+                <div class="checkbox_item">
                     <label style="cursor: pointer; display: flex; align-items: center; gap: 10px;">
-
                         <input type="checkbox" name="allergen_ids" value="{{ allergen.id }}"
                             style="width: 20px; height: 20px;" {% if allergen in user.allergens %} checked {% endif %}>
                         <span>{{ allergen.name }}</span>
@@ -42,16 +41,26 @@
         </form>
     </div>
     <div class="flash-overlay">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="flash-card flash-{{ category }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-card flash-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
     </div>
+    <script>
+        document.querySelectorAll('.flash-card').forEach((card) => {
+            card.addEventListener('animationend', (event) => {
+                if (event.animationName === 'slideOut') {
+                    card.remove();
+                    const overlay = document.querySelector('.flash-overlay');
+                    if (overlay && overlay.querySelectorAll('.flash-card').length === 0) overlay.remove();
+                }
+            });
+        });
+    </script>
 </body>
-
 </html>
